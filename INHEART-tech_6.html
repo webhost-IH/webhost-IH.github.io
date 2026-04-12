@@ -15,6 +15,12 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden;}
 
+/* ── DESKTOP VERSION ── */
+.desktop-site{display:block;}
+
+/* ── MOBILE VERSION ── */
+.mobile-site{display:none;}
+
 /* ── DESKTOP NAV ── */
 .desktop-nav{position:relative;height:72px;background:rgba(20,32,54,.97);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 60px;z-index:9998;border-bottom:1px solid rgba(122,184,160,.1);}
 .nav-logo{font-family:'Inter',sans-serif;font-weight:800;font-size:19px;color:#fff;letter-spacing:.25em;text-transform:uppercase;}
@@ -39,8 +45,7 @@ body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--cream);color
 .lang-btn-nav.active{color:#fff;background:rgba(122,184,160,.2);}
 .lang-btn-nav:hover:not(.active){color:var(--mint);}
 
-.m-menu-btn{display:none;width:34px;height:34px;background:rgba(180,200,230,.08);border:none;border-radius:6px;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;}
-.m-menu-btn span{display:block;width:16px;height:1.5px;background:rgba(180,200,230,.7);border-radius:2px;}
+.m-menu-btn{display:none;}
 
 /* ── HERO ── */
 .hero{min-height:100vh;background:linear-gradient(145deg,#111e33 0%,#1a2a48 50%,#152338 100%);display:flex;align-items:center;position:relative;overflow:hidden;}
@@ -148,13 +153,6 @@ section{padding:96px 60px;}
 .contact-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start;}
 .contact-info .section-title{color:#fff;}
 .contact-info .section-sub{color:rgba(180,200,230,.65);}
-.contact-items{margin-top:38px;display:flex;flex-direction:column;gap:22px;}
-.contact-item{display:flex;align-items:flex-start;gap:16px;}
-.contact-icon{width:44px;height:44px;flex-shrink:0;background:rgba(58,122,69,.1);border:1px solid rgba(58,122,69,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;}
-.ci-label{font-size:10px;color:#6fc880;letter-spacing:.14em;margin-bottom:4px;font-family:'Inter',sans-serif;font-weight:600;text-transform:uppercase;}
-.ci-value{font-size:14px;color:rgba(180,200,230,.85);line-height:1.6;}
-.ci-value a{color:rgba(180,200,230,.85);text-decoration:none;}
-.ci-value a:hover{color:#6fc880;}
 
 /* Contact Form */
 .contact-form{background:rgba(255,255,255,.03);border:1px solid rgba(180,200,230,.08);border-radius:16px;padding:44px;backdrop-filter:blur(10px);}
@@ -191,41 +189,18 @@ body.en .form-title,body.en .why-card h4,body.en .training-card h3{font-family:'
 body.en .footer-logo{font-family:'Inter',sans-serif;}
 body.en .hero h1{font-size:clamp(28px,4vw,50px);}
 
-/* ════════ TABLET/MOBILE RESPONSIVE (max-width: 768px) ════════ */
+/* ════════ MOBILE RESPONSIVE (max-width: 768px) ════════ */
 @media (max-width: 768px) {
-  .desktop-nav{padding:0 20px 0 30px;}
-  
-  .nav-links{display:none;}
-  .nav-links a{display:none;}
-  
-  .m-menu-btn{display:flex;}
-  
-  section{padding:48px 24px;}
-  .hero-content{padding:0 24px;}
-  
-  .training-row{grid-template-columns:1fr;}
-  .services-grid{grid-template-columns:1fr;}
-  .service-card.wide{grid-column:span 1;}
-  .cases-grid{grid-template-columns:1fr;}
-  .whyus-grid{grid-template-columns:repeat(2,1fr);}
-  
-  .contact-inner{grid-template-columns:1fr;gap:40px;}
-  .form-row{grid-template-columns:1fr;}
-  
-  .hero-stats{flex-direction:column;gap:24px;}
-  
-  .hero h1{font-size:28px;}
-  .section-title{font-size:22px;}
-  
-  footer{padding:24px;}
+  .desktop-site{display:none !important;}
+  .mobile-site{display:block;}
 }
 
-/* ── EN overrides ── */
-body.en .nav-logo{display:none;}
-body.en .nav-logo-en{display:block;}
 </style>
 </head>
 <body>
+
+<!-- ════════ DESKTOP VERSION ════════ -->
+<div class="desktop-site">
 
   <nav class="desktop-nav">
     <div class="nav-logo">IN<span class="logo-heart">H</span>EART</div>
@@ -242,7 +217,6 @@ body.en .nav-logo-en{display:block;}
         <button class="lang-btn-nav active" id="btn-zh-nav" onclick="switchLang('zh')">中文</button>
         <button class="lang-btn-nav" id="btn-en-nav" onclick="switchLang('en')">EN</button>
       </div>
-      <button class="m-menu-btn" id="menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -446,9 +420,6 @@ body.en .nav-logo-en{display:block;}
         <div class="section-label" data-i18n="secLblContact">聯絡我們</div>
         <h2 class="section-title" data-i18n-html="secTitleContact">讓我們開始<br>一段合作</h2>
         <p class="section-sub" style="color:rgba(180,200,230,.65);" data-i18n="secSubContact">無論您正面臨何種數位轉型挑戰，植心科技的專業團隊都樂於提供客製化解決方案。</p>
-        <div class="contact-items">
-          <!-- Email section removed as per requirement -->
-        </div>
       </div>
 
       <div class="contact-form">
@@ -512,10 +483,282 @@ body.en .nav-logo-en{display:block;}
     <p data-i18n="footerCopy">© 2026 INHEART 植心科技股份有限公司．版權所有</p>
   </footer>
 
+</div>
+
+<!-- ════════ MOBILE VERSION ════════ -->
+<div class="mobile-site">
+  
+  <nav class="desktop-nav" style="padding:0 20px 0 30px;">
+    <div class="nav-logo">IN<span class="logo-heart">H</span>EART</div>
+    <div class="nav-logo-en">IN<span class="logo-heart">H</span>EART</div>
+    
+    <div class="nav-right">
+      <div class="lang-switcher-nav">
+        <button class="lang-btn-nav active" id="btn-zh-mobile" onclick="switchLang('zh')">中文</button>
+        <button class="lang-btn-nav" id="btn-en-mobile" onclick="switchLang('en')">EN</button>
+      </div>
+      <button class="m-menu-btn" id="menu-btn" style="display:flex;"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE HERO -->
+  <section class="hero" id="home-mobile" style="padding:0;">
+    <div class="hero-bg-art"><div class="hero-circle"></div><div class="hero-circle"></div><div class="hero-circle"></div></div>
+    <div class="hero-leaves">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:400px;height:400px;opacity:.06;">
+        <polygon points="200,20 380,360 20,360" fill="none" stroke="#3a7a45" stroke-width="2"/>
+        <polygon points="200,80 340,340 60,340" fill="none" stroke="#3a7a45" stroke-width="1.5"/>
+        <polygon points="200,140 300,320 100,320" fill="#3a7a45" opacity=".3"/>
+      </svg>
+    </div>
+    <div class="hero-content" style="padding:44px 24px;">
+      <div class="hero-tag" data-i18n="heroTag">植心科技股份有限公司</div>
+      <h1 data-i18n-html="heroH1" style="font-size:28px;">從<em>心</em>出發<br>讓數據成為決策的力量</h1>
+      <p data-i18n="mHeroP">提供 Power BI 教育訓練、Claude AI 培訓與數據顧問服務，協助企業打造數據驅動決策文化。</p>
+      <div class="hero-btns" style="flex-direction:column;gap:10px;">
+        <a href="#services" class="btn-primary" style="text-align:center;" data-i18n="heroBtnPri">探索服務 →</a>
+        <a href="#contact" class="btn-secondary" style="text-align:center;" data-i18n="heroBtnSec">聯絡我們</a>
+      </div>
+      <div class="hero-stats" style="flex-direction:column;gap:24px;">
+        <div class="stat-item"><div class="num">800+</div><div class="label" data-i18n="stat1">活躍用戶</div></div>
+        <div class="stat-item"><div class="num">10<span data-i18n="statYr">年</span></div><div class="label" data-i18n="stat3">深耕經驗</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE SERVICES -->
+  <section class="services" id="services-mobile" style="padding:48px 24px;">
+    <div class="services-header">
+      <div class="section-label" data-i18n="secLblServices">服務項目</div>
+      <h2 class="section-title" data-i18n="secTitleServices" style="font-size:22px;">全方位數位賦能服務</h2>
+      <p class="section-sub" data-i18n="mSecSub">從教育訓練到顧問導入，端到端數據決策轉型。</p>
+    </div>
+
+    <div class="training-row" style="grid-template-columns:1fr;">
+      <div class="training-card tc-powerbi">
+        <div class="training-overlay"></div>
+        <div class="training-content">
+          <div class="training-badge">🎓 <span data-i18n="trainLabel">教育訓練</span></div>
+          <h3 data-i18n="t1Title" style="font-size:18px;">企業 Power BI Dashboard 教育訓練</h3>
+          <p data-i18n="mt1Desc" style="font-size:12px;">培養企業內部 Power BI 實戰能力，結合真實業務場景即學即用。</p>
+          <div class="level-pills">
+            <span class="level-pill pill-beginner"><span class="pill-dot"></span><span data-i18n="beginner">Beginner 入門班</span></span>
+            <span class="level-pill pill-advanced"><span class="pill-dot"></span><span data-i18n="advanced">Advanced 進階班</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="training-card tc-claude">
+        <div class="training-overlay"></div>
+        <div class="training-content">
+          <div class="training-badge">🤖 <span data-i18n="trainLabel">教育訓練</span></div>
+          <h3 data-i18n="t2Title" style="font-size:18px;">Claude Coworker AI 教育訓練</h3>
+          <p data-i18n="mt2Desc" style="font-size:12px;">將 Claude AI 打造為職場夥伴，學習 AI 工具提升效率與決策分析。</p>
+          <div class="level-pills">
+            <span class="level-pill pill-beginner"><span class="pill-dot"></span><span data-i18n="beginner">Beginner 入門班</span></span>
+            <span class="level-pill pill-advanced"><span class="pill-dot"></span><span data-i18n="advanced">Advanced 進階班</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="consulting-divider">
+      <span data-i18n="consultingLabel">顧問服務</span>
+    </div>
+
+    <div class="services-grid" style="grid-template-columns:1fr;">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3 data-i18n="s1Title" style="font-size:15px;">Dashboard 與 KPI 設計</h3>
+        <p class="s-sub" data-i18n="s1Sub">讓管理層一眼看懂營運狀況</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s1l1">Power BI Dashboard 建置與優化</li>
+          <li data-i18n="s1l2">KPI 架構設計與重整</li>
+          <li data-i18n="s1l3">跨部門數據整合</li>
+          <li data-i18n="s1l4">管理層專用決策儀表板</li>
+        </ul>
+        <p class="service-target" data-i18n="s1Target">👉 適合：業務、營運、管理團隊</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3 data-i18n="s2Title" style="font-size:15px;">商業分析與預測模型</h3>
+        <p class="s-sub" data-i18n="s2Sub">從「事後分析」進化為「提前預測」</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s2l1">銷售預測（Sales Forecast）</li>
+          <li data-i18n="s2l2">毛利分析（Margin Analysis）</li>
+          <li data-i18n="s2l3">情境模擬（Scenario Planning）</li>
+        </ul>
+        <p class="service-target" data-i18n="s2Target">👉 幫助企業提前掌握市場變化</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔄</div>
+        <h3 data-i18n="s3Title" style="font-size:15px;">Dashboard 導入推動</h3>
+        <p class="s-sub" data-i18n="s3Sub">讓數據真正被使用，而不是被忽略</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s3l1">使用者培訓與分群</li>
+          <li data-i18n="s3l2">Super User 制度建立</li>
+          <li data-i18n="s3l3">使用率追蹤與優化</li>
+          <li data-i18n="s3l4">內部推廣策略設計</li>
+        </ul>
+        <p class="service-target" data-i18n="s3Target">👉 解決「報表做好但沒人用」的問題</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3 data-i18n="s4Title" style="font-size:15px;">數據決策顧問（DDDM）</h3>
+        <p class="s-sub" data-i18n="s4Sub">打造企業的數據決策能力</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s4l1">數據決策流程設計</li>
+          <li data-i18n="s4l2">KPI 與決策連動機制</li>
+          <li data-i18n="s4l3">管理層數據思維培養</li>
+          <li data-i18n="s4l4">Data Governance 建立</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🚀</div>
+        <h3 data-i18n="s5Title" style="font-size:15px;">數據轉型規劃</h3>
+        <p class="s-sub" data-i18n="s5Sub">從工具導入到組織升級</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s5l1">數據策略 Roadmap（1–3年）</li>
+          <li data-i18n="s5l2">系統整合建議（ERP / CRM / BI）</li>
+          <li data-i18n="s5l3">Data Team 架構設計</li>
+          <li data-i18n="s5l4">數據文化建立</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE CASES -->
+  <section class="cases" id="cases-mobile" style="padding:48px 24px;">
+    <div class="cases-header">
+      <div class="section-label" data-i18n="secLblCases">成功案例</div>
+      <h2 class="section-title" data-i18n="secTitleCases" style="font-size:22px;">以成果說話</h2>
+      <p class="section-sub" data-i18n="secSubCases">攜手各產業領導企業，共同創造可量化的數位轉型價值。</p>
+    </div>
+    <div class="cases-grid" style="grid-template-columns:1fr;">
+      <div class="case-card case-card-1">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c1Badge">跨國企業</span>
+          <h3 data-i18n="c1Title">Dashboard 專案推動</h3>
+          <p class="case-challenge" data-i18n="c1Challenge">企業內部用 Excel 報表，各部門數據不一致，決策依然依賴經驗。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c1r1">全球近 800 人使用相同數據做報告</div>
+            <div class="case-result-item" data-i18n="c1r2">管理層定期以 Dashboard 進行決策</div>
+            <div class="case-result-item" data-i18n="c1r3">大幅提升跨區域溝通效率</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card case-card-2">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c2Badge">業務預測</span>
+          <h3 data-i18n="c2Title">業務預測模型建立</h3>
+          <p class="case-challenge" data-i18n="c2Challenge">銷售預測不準，影響庫存與營收規劃，資源配置失衡。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c2r1">預測準確率顯著提升</div>
+            <div class="case-result-item" data-i18n="c2r2">提前掌握市場需求變化</div>
+            <div class="case-result-item" data-i18n="c2r3">降低庫存與缺貨風險</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card case-card-3">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c3Badge">文化導入</span>
+          <h3 data-i18n="c3Title">數據決策文化導入</h3>
+          <p class="case-challenge" data-i18n="c3Challenge">企業擁有數據，但缺乏決策機制，憑感覺做決策的情況普遍。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c3r1">決策速度顯著提升</div>
+            <div class="case-result-item" data-i18n="c3r2">組織對數據的信任度提高</div>
+            <div class="case-result-item" data-i18n="c3r3">減少憑感覺決策的情況</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE WHY US -->
+  <section class="whyus" style="padding:48px 24px;background:var(--ice);">
+    <div class="section-label" data-i18n="secLblWhy">我們的優勢</div>
+    <h2 class="section-title" data-i18n="secTitleWhy" style="font-size:22px;">為什麼選擇植心科技</h2>
+    <div class="whyus-grid" style="grid-template-columns:1fr;margin-top:28px;">
+      <div class="why-card"><div class="why-icon">🏆</div><h4 data-i18n="w1Title">實戰經驗</h4><p data-i18n="w1Desc">成功推動跨區域數據專案，具備真實落地經驗。</p></div>
+      <div class="why-card"><div class="why-icon">��</div><h4 data-i18n="w2Title">不只技術</h4><p data-i18n="w2Desc">結合商業與管理思維，讓技術真正服務決策。</p></div>
+      <div class="why-card"><div class="why-icon">🎯</div><h4 data-i18n="w3Title">重視落地</h4><p data-i18n="w3Desc">確保數據「真的被使用」，而非只是做好卻束之高閣。</p></div>
+      <div class="why-card"><div class="why-icon">🔧</div><h4 data-i18n="w4Title">客製化方案</h4><p data-i18n="w4Desc">依企業規模、產業與需求設計專屬解決方案。</p></div>
+    </div>
+  </section>
+
+  <!-- MOBILE CONTACT -->
+  <section class="contact" style="padding:48px 24px;">
+    <div class="contact-info" style="grid-column:unset;">
+      <div class="section-label" data-i18n="secLblContact">聯絡我們</div>
+      <h2 class="section-title" data-i18n="mSecTitleContact" style="color:#fff;font-size:22px;">讓我們開始一段合作</h2>
+      <p class="section-sub" style="color:rgba(180,200,230,.55);margin-bottom:28px;" data-i18n="secSubContact">無論您正面臨何種挑戰，植心科技的專業團隊都樂於提供客製化解決方案。</p>
+    </div>
+
+    <div class="contact-form" style="background:rgba(255,255,255,.03);border:1px solid rgba(180,200,230,.08);border-radius:12px;padding:28px 18px;">
+      <h3 class="form-title" data-i18n="formTitle">送出諮詢需求</h3>
+      <div data-fs-success id="m-form-success"></div>
+      <form id="mContactForm">
+        <div class="form-group">
+          <label data-i18n="fName">姓名</label>
+          <input type="text" name="fullName" data-fs-field required placeholder="王大明">
+          <span data-fs-error="fullName"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fCo">公司名稱</label>
+          <input type="text" name="company" data-fs-field placeholder="XX 股份有限公司">
+          <span data-fs-error="company"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fEmail">電子信箱</label>
+          <input type="email" name="email" data-fs-field required placeholder="email@example.com">
+          <span data-fs-error="email"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fTel">聯絡電話</label>
+          <input type="tel" name="phone" data-fs-field placeholder="09XX-XXXXXX">
+          <span data-fs-error="phone"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fService">感興趣的服務</label>
+          <select name="service" data-fs-field required>
+            <option value="">-- 請選擇服務項目 --</option>
+            <option value="Power BI 教育訓練">Power BI 教育訓練</option>
+            <option value="Claude AI 教育訓練">Claude AI 教育訓練</option>
+            <option value="Dashboard 與 KPI 設計">Dashboard 與 KPI 設計</option>
+            <option value="商業分析與預測模型">商業分析與預測模型</option>
+            <option value="Dashboard 導入推動">Dashboard 導入推動</option>
+            <option value="數據決策顧問">數據決策顧問</option>
+            <option value="數據轉型規劃">數據轉型規劃</option>
+          </select>
+          <span data-fs-error="service"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fMsg">需求說明</label>
+          <textarea name="message" data-fs-field placeholder="請簡述您的企業現況與目標…" style="min-height:90px;"></textarea>
+          <span data-fs-error="message"></span>
+        </div>
+        <button type="submit" class="btn-submit" data-fs-submit-btn data-i18n="fSubmit">送出需求 →</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="padding:24px;">
+    <div>
+      <div class="footer-logo">IN<span>H</span>EART 植心科技</div>
+      <div class="footer-tagline">Data-Driven Decision Making Partner</div>
+    </div>
+    <p data-i18n="mFooterCopy" style="font-size:11px;">© 2026 INHEART 植心科技</p>
+  </footer>
+
+</div>
+
 <!-- Formspree AJAX CDN -->
 <script>
   window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
   formspree('initForm', { formElement: '#contactForm', formId: 'xreonrlz' });
+  formspree('initForm', { formElement: '#mContactForm', formId: 'xreonrlz' });
 </script>
 <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
@@ -526,16 +769,20 @@ const i18n = {
     heroTag:'INHEART 植心科技股份有限公司',
     heroH1:'從<em>心</em>出發<br>讓數據成為決策的力量',
     heroP:'植心科技提供企業級 Power BI Dashboard 建置、數據決策顧問，以及 AI 工具教育訓練，協助企業從數據洞察到組織升級，打造永續競爭優勢。',
+    mHeroP:'提供 Power BI 教育訓練、Claude AI 培訓與數據顧問服務，協助企業打造數據驅動決策文化。',
     heroBtnPri:'探索服務 →',heroBtnSec:'聯絡我們',
     stat1:'每季活躍用戶',stat3:'深耕經驗',statYr:'年',
     secLblServices:'服務項目',secTitleServices:'全方位數位賦能服務',
     secSubServices:'從教育訓練到顧問導入，植心科技提供端到端的數據決策轉型服務。',
+    mSecSub:'從教育訓練到顧問導入，端到端數據決策轉型。',
     trainLabel:'教育訓練',consultingLabel:'顧問服務',
     beginner:'Beginner 入門班',advanced:'Advanced 進階班',
     t1Title:'企業 Power BI Dashboard 教育訓練',
     t1Desc:'從零開始到進階應用，培養企業內部的 Power BI 實戰能力。課程結合真實業務場景，讓學員能立即將所學應用於日常工作。',
+    mt1Desc:'培養企業內部 Power BI 實戰能力，結合真實業務場景即學即用。',
     t2Title:'Claude Coworker AI 教育訓練',
-    t2Desc:'將 Claude AI 打造為您的職場夥伴。學習如何運用 AI 工具提升工作效率、輔助決策分析，讓每位員工都能善用 AI 的力量。',
+    t2Desc:'將 Claude AI 打造為您的職場夥伴。學習如何運用 AI 工具提升工作效率、輔助決策分析，讓每位員工都能善用 AI 的力���。',
+    mt2Desc:'將 Claude AI 打造為職場夥伴，學習 AI 工具提升效率與決策分析。',
     s1Title:'Dashboard 與 KPI 設計',s1Sub:'讓管理層一眼看懂營運狀況',
     s1l1:'Power BI Dashboard 建置與優化',s1l2:'KPI 架構設計與重整',s1l3:'跨部門數據整合',s1l4:'管理層專用決策儀表板',
     s1Target:'👉 適合：業務、營運、管理團隊',
@@ -549,22 +796,22 @@ const i18n = {
     s4l1:'數據決策流程設計',s4l2:'KPI 與決策連動機制',s4l3:'管理層數據思維培養',s4l4:'Data Governance 建立',
     s5Title:'數據轉型規劃',s5Sub:'從工具導入到組織升級',
     s5l1:'數據策略 Roadmap（1–3年）',s5l2:'系統整合建議（ERP / CRM / BI）',s5l3:'Data Team 架構設計',s5l4:'數據文化建立',
-    secLblCases:'成功案例',secTitleCases:'以成果說話',secSubCases:'攜手各產業領導企業，共同創造可量化的數位轉���價值。',
+    secLblCases:'成功案例',secTitleCases:'以成果說話',secSubCases:'攜手各產業領導企業，共同創造可量化的數位轉型價值。',
     c1Badge:'跨國企業',c1Title:'Dashboard 專案推動',
     c1Challenge:'企業內部用 Excel 報表，各部門數據不一致，決策依然依賴經驗。',
     c1r1:'全球近 800 人使用相同數據做報告',c1r2:'管理層定期以 Dashboard 進行決策',c1r3:'大幅提升跨區域溝通效率',
     c2Badge:'業務預測',c2Title:'業務預測模型建立',
     c2Challenge:'銷售預測不準，影響庫存與營收規劃，資源配置失衡。',
-    c2r1:'預測準確率顯著提升',c2r2:'提前掌握市場需求變化',c2r3:'降低庫存與缺貨風險',
+    c2r1:'預測準確率顯著提升',c2r2:'提前掌握市場需求變化',c2r3:'降���庫存與缺貨風險',
     c3Badge:'文化導入',c3Title:'數據決策文化導入',
     c3Challenge:'企業擁有數據，但缺乏決策機制，憑感覺做決策的情況普遍。',
     c3r1:'決策速度顯著提升',c3r2:'組織對數據的信任度提高',c3r3:'減少憑感覺決策的情況',
     secLblWhy:'我們的優勢',secTitleWhy:'為什麼選擇植心科技',secSubWhy:'實戰出發，落地為本，每一個服務都以「真正被使用」為目標。',
     w1Title:'實戰經驗',w1Desc:'成功推動跨區域數據專案，具備真實落地經驗。',
     w2Title:'不只技術',w2Desc:'結合商業與管理思維，讓技術真正服務決策。',
-    w3Title:'重視落地',w3Desc:'確保數據「真的被使用」，而非只是做���卻束之高閣。',
+    w3Title:'重視落地',w3Desc:'確保數據「真的被使用」，而非只是做好卻束之高閣。',
     w4Title:'客製化方案',w4Desc:'依企業規模、產業與需求設計專屬解決方案。',
-    secLblContact:'聯絡我們',secTitleContact:'讓我們開始<br>一段合作',
+    secLblContact:'聯絡我們',secTitleContact:'讓我們開始<br>一段合作',mSecTitleContact:'讓我們開始一段合作',
     secSubContact:'無論您正面臨何種數位轉型挑戰，植心科技的專業團隊都樂於提供客製化解決方案。',
     formTitle:'送出諮詢需求',
     fName:'姓名',fNamePh:'王大明',fCo:'公司名稱',fCoPh:'XX 股份有限公司',
@@ -572,22 +819,27 @@ const i18n = {
     fMsg:'需求說明',fMsgPh:'請簡述您的企業現況與目標…',
     fSubmit:'送出需求 →',
     footerCopy:'© 2026 INHEART 植心科技股份有限公司．版權所有',
+    mFooterCopy:'© 2026 INHEART 植心科技股份有限公司',
   },
   en:{
     navServices:'Services',navCases:'Cases',navWhy:'Why Us',navCta:'Contact Us',
     heroTag:'INHEART Technology Co., Ltd.',
     heroH1:'From the <em>Heart</em>,<br>Turning Data Into Decision Power',
     heroP:'INHEART delivers enterprise Power BI dashboard consulting, data-driven decision advisory, and AI workplace training — helping organizations build sustainable competitive advantage through data.',
+    mHeroP:'Power BI training, Claude AI coaching, and data consulting — helping teams build a truly data-driven culture.',
     heroBtnPri:'Explore Services →',heroBtnSec:'Contact Us',
     stat1:'Active Users / Quarter',stat3:'Years of Expertise',statYr:' yrs',
     secLblServices:'Services',secTitleServices:'Full-Spectrum Digital Enablement',
     secSubServices:'From training to consulting — end-to-end data decision transformation services.',
+    mSecSub:'From training to advisory — end-to-end data transformation.',
     trainLabel:'Training',consultingLabel:'Consulting',
     beginner:'Beginner',advanced:'Advanced',
     t1Title:'Enterprise Power BI Dashboard Training',
     t1Desc:'From fundamentals to advanced application — build real Power BI capability inside your organization. Courses are grounded in real business scenarios so learners apply skills immediately.',
+    mt1Desc:'Build internal Power BI capability with real business scenarios — learn and apply immediately.',
     t2Title:'Claude Coworker AI Training',
     t2Desc:'Turn Claude AI into your team\'s daily work partner. Learn to harness AI tools for productivity, decision support, and analysis — empowering every employee to work smarter.',
+    mt2Desc:'Turn Claude AI into a workplace partner — boosting productivity and decision-making for every employee.',
     s1Title:'Dashboard & KPI Design',s1Sub:'Give leadership instant operational clarity',
     s1l1:'Power BI dashboard build & optimization',s1l2:'KPI framework design & restructuring',s1l3:'Cross-department data integration',s1l4:'Executive decision dashboards',
     s1Target:'👉 Ideal for: Sales, Operations, Leadership',
@@ -616,7 +868,7 @@ const i18n = {
     w2Title:'Beyond Technology',w2Desc:'Combining business acumen with management insight to make data serve decisions.',
     w3Title:'Committed to Adoption',w3Desc:"We ensure data is actually used — not just built and left on the shelf.",
     w4Title:'Tailored Solutions',w4Desc:'Custom-designed for your industry, scale, and organizational needs.',
-    secLblContact:'Contact Us',secTitleContact:'Let\'s Start<br>Working Together',
+    secLblContact:'Contact Us',secTitleContact:'Let\'s Start<br>Working Together',mSecTitleContact:"Let's Start Working Together",
     secSubContact:"Whatever digital challenge you face, INHEART's expert team is ready to deliver a tailored solution.",
     formTitle:'Send Your Inquiry',
     fName:'Full Name',fNamePh:'John Smith',fCo:'Company',fCoPh:'Acme Corporation',
@@ -624,6 +876,7 @@ const i18n = {
     fMsg:'Project Details',fMsgPh:'Tell us about your situation and goals…',
     fSubmit:'Submit Inquiry →',
     footerCopy:'© 2026 INHEART Technology Co., Ltd. All rights reserved.',
+    mFooterCopy:'© 2026 INHEART Technology Co., Ltd.',
   }
 };
 
@@ -640,14 +893,18 @@ function applyLang(lang){
 function switchLang(lang){
   currentLang=lang;
   applyLang(lang);
-  ['btn-zh-nav'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',lang==='zh');});
-  ['btn-en-nav'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',lang==='en');});
+  document.querySelectorAll('[id^="btn-zh"], [id^="btn-en"]').forEach(el=>{
+    el.classList.toggle('active',
+      (el.id.includes('zh') && lang==='zh') || (el.id.includes('en') && lang==='en')
+    );
+  });
 }
 
-function toggleMenu(){
-  const menuBtn=document.getElementById('menu-btn');
-  console.log('Menu clicked');
-}
+// Initialize language on load
+window.addEventListener('load',()=>{applyLang(currentLang);});
+</script>
+</body>
+</html>
 
 // Initialize language on load
 window.addEventListener('load',()=>{applyLang(currentLang);});
