@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semiconductor Field Service Management Dashboard — Q1 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    :root {
+      --navy:        #0A1628;
+      --blue-mid:    #1E6FD9;
+      --blue-light:  #3B8FE8;
+      --blue-pale:   #7BB8F5;
+      --blue-frost:  #EBF4FD;
+      --teal:        #0D9F8A;
+      --amber:       #F59E0B;
+      --red:         #E53935;
+      --green:       #1AAD6F;
+      --purple:      #7C3AED;
+      --slate-50:    #F8FAFD;
+      --slate-100:   #EEF3F9;
+      --slate-200:   #D8E3F0;
+      --text-primary:   #0D1F3C;
+      --text-secondary: #4A6585;
+      --text-muted:     #7B93B8;
+      --border:      rgba(30,111,217,0.12);
+      --shadow-sm:   0 1px 4px rgba(10,40,100,0.08), 0 0 0 1px rgba(30,111,217,0.06);
+      --shadow-md:   0 4px 16px rgba(10,40,100,0.10), 0 0 0 1px rgba(30,111,217,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--slate-50); color: var(--text-primary); min-height: 100vh; }
+
+    /* TOPBAR */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .logo-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #1E6FD9, #0D9F8A);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+    }
+    .brand-name { font-size: 15px; font-weight: 600; color: #fff; }
+    .brand-sub  { font-size: 11px; color: var(--blue-pale); margin-top: 1px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .period-badge {
+      background: rgba(30,111,217,0.25); color: #93C5FD;
+      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+      font-family: 'DM Mono', monospace; border: 1px solid rgba(30,111,217,0.3);
+    }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #1AAD6F; box-shadow: 0 0 0 3px rgba(26,173,111,0.25); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 3px rgba(26,173,111,0.25)} 50%{box-shadow:0 0 0 6px rgba(26,173,111,0.10)} }
+    .live-label { font-size: 11px; color: #1AAD6F; font-weight: 500; }
+
+    /* LAYOUT */
+    .dashboard { max-width: 1400px; margin: 0 auto; padding: 24px 28px 40px; }
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+    .page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+    .page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .tab-group { display: flex; gap: 4px; background: var(--slate-100); border-radius: 10px; padding: 4px; }
+    .tab { font-size: 12px; font-weight: 500; color: var(--text-secondary); padding: 6px 14px; border-radius: 7px; cursor: pointer; transition: all 0.15s; }
+    .tab.active { background: #fff; color: var(--blue-mid); box-shadow: var(--shadow-sm); font-weight: 600; }
+    .tab:not(.active):hover { background: var(--blue-frost); }
+
+    /* SECTION */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin: 24px 0 12px; }
+    .section-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
+    .section-accent { width: 3px; height: 14px; background: var(--blue-mid); border-radius: 2px; }
+    .section-link { font-size: 11px; color: var(--blue-mid); font-weight: 500; cursor: pointer; }
+    .section-link:hover { text-decoration: underline; }
+
+    /* KPI GRID */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .kpi-card {
+      background: #fff; border-radius: 14px; box-shadow: var(--shadow-sm);
+      padding: 16px 18px 14px; position: relative; overflow: hidden;
+      transition: transform 0.15s, box-shadow 0.15s; cursor: default;
+    }
+    .kpi-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .kpi-top-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
+    .bar-blue   { background: linear-gradient(90deg,#1E6FD9,#3B8FE8); }
+    .bar-teal   { background: linear-gradient(90deg,#0D9F8A,#14C9A8); }
+    .bar-amber  { background: linear-gradient(90deg,#F59E0B,#FBC02D); }
+    .bar-green  { background: linear-gradient(90deg,#1AAD6F,#22C55E); }
+    .bar-red    { background: linear-gradient(90deg,#E53935,#EF5350); }
+    .bar-purple { background: linear-gradient(90deg,#7C3AED,#A78BFA); }
+    .kpi-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .kpi-icon-box { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .icon-blue   { background: rgba(30,111,217,0.12); }
+    .icon-teal   { background: rgba(13,159,138,0.12); }
+    .icon-amber  { background: rgba(245,158,11,0.12); }
+    .icon-green  { background: rgba(26,173,111,0.12); }
+    .icon-red    { background: rgba(229,57,53,0.12); }
+    .icon-purple { background: rgba(124,58,237,0.12); }
+    .delta-badge { font-size: 10px; font-weight: 600; padding: 3px 7px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+    .delta-up   { background: rgba(26,173,111,0.12); color: #1AAD6F; }
+    .delta-down { background: rgba(229,57,53,0.10);  color: #E53935; }
+    .delta-flat { background: rgba(74,101,133,0.10); color: #4A6585; }
+    .kpi-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-muted); margin-bottom: 2px; }
+    .kpi-value { font-size: 26px; font-weight: 600; color: var(--text-primary); font-family: 'DM Mono', monospace; line-height: 1; }
+    .kpi-sub   { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+    /* CHARTS */
+    .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .chart-grid-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .chart-grid-3b { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .chart-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 14px;
+      box-shadow: var(--shadow-sm); padding: 18px 20px 16px; transition: box-shadow 0.15s;
+    }
+    .chart-card:hover { box-shadow: var(--shadow-md); }
+    .chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .chart-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .chart-subtitle { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .status-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+    .badge-green  { background: rgba(26,173,111,0.12); color: #1AAD6F; }
+    .badge-amber  { background: rgba(245,158,11,0.12); color: #c07800; }
+    .badge-blue   { background: rgba(30,111,217,0.12); color: #1E6FD9; }
+    .badge-red    { background: rgba(229,57,53,0.10);  color: #E53935; }
+    .badge-purple { background: rgba(124,58,237,0.12); color: #7C3AED; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .legend-item  { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); }
+    .legend-dot   { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-line  { width: 14px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+    .canvas-wrap  { position: relative; width: 100%; }
+
+    /* ENGINEER MAP CARD */
+    .map-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 16px; margin-bottom: 16px; }
+    .map-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm); padding: 18px 20px; }
+    .region-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .region-row { display: flex; align-items: center; gap: 10px; }
+    .region-label { font-size: 12px; color: var(--text-secondary); min-width: 110px; }
+    .region-bar-wrap { flex: 1; background: var(--slate-100); border-radius: 6px; height: 8px; overflow: hidden; }
+    .region-bar { height: 100%; border-radius: 6px; }
+    .region-val { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text-primary); min-width: 36px; text-align: right; }
+    .region-delta { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 20px; min-width: 52px; text-align: center; }
+
+    /* SLA GAUGE ROW */
+    .gauge-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 16px; }
+    .gauge-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm); padding: 16px 18px; text-align: center; transition: box-shadow 0.15s; }
+    .gauge-card:hover { box-shadow: var(--shadow-md); }
+    .gauge-title { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+    .gauge-ring { position: relative; width: 90px; height: 90px; margin: 0 auto 8px; }
+    .gauge-ring svg { transform: rotate(-90deg); }
+    .gauge-ring-bg { fill: none; stroke: var(--slate-100); stroke-width: 10; }
+    .gauge-ring-fill { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+    .gauge-center { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size: 16px; font-weight: 700; font-family: 'DM Mono', monospace; }
+    .gauge-sub { font-size: 10px; color: var(--text-muted); }
+
+    /* TABLE */
+    .table-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 16px; }
+    .table-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--slate-200); display: flex; align-items: center; justify-content: space-between; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { background: var(--slate-100); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-muted); padding: 10px 14px; text-align: left; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid var(--slate-200); transition: background 0.12s; }
+    tbody tr:hover { background: var(--blue-frost); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 9px 14px; font-size: 12px; color: var(--text-primary); white-space: nowrap; }
+    .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+    .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    .pill-green  { background: rgba(26,173,111,0.12); color: #1AAD6F; }
+    .pill-amber  { background: rgba(245,158,11,0.12); color: #c07800; }
+    .pill-red    { background: rgba(229,57,53,0.10);  color: #E53935; }
+    .pill-blue   { background: rgba(30,111,217,0.12); color: #1E6FD9; }
+    .pill-purple { background: rgba(124,58,237,0.12); color: #7C3AED; }
+    .pill-gray   { background: rgba(74,101,133,0.10); color: #4A6585; }
+
+    /* PRIORITY DOT */
+    .prio-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px; }
+    .prio-p1 { background:#E53935; }
+    .prio-p2 { background:#F59E0B; }
+    .prio-p3 { background:#1E6FD9; }
+    .prio-p4 { background:#94A3B8; }
+
+    /* FOOTER */
+    .footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 0; border-top: 1px solid var(--slate-200); margin-top: 8px; }
+    .footer-note { font-size: 11px; color: var(--text-muted); }
+    .btn-group { display: flex; gap: 10px; }
+    .btn-ghost { font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 8px; border: 1px solid var(--slate-200); background: #fff; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
+    .btn-ghost:hover { border-color: var(--blue-mid); color: var(--blue-mid); background: var(--blue-frost); }
+    .btn-primary { font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 8px; border: none; background: var(--blue-mid); color: #fff; cursor: pointer; transition: background 0.15s; }
+    .btn-primary:hover { background: #1660c0; }
+
+    @media (max-width: 1000px) {
+      .kpi-grid { grid-template-columns: repeat(2,1fr); }
+      .chart-grid-2,.chart-grid-3,.chart-grid-3b,.map-grid { grid-template-columns:1fr; }
+      .gauge-row { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="logo-mark">FSM</div>
+    <div>
+      <div class="brand-name">SemiServ Pro</div>
+      <div class="brand-sub">Field Service Management — Semiconductor</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="period-badge">Q1 2026 · Jan–Mar</div>
+    <div class="live-dot"></div>
+    <div class="live-label">Live</div>
+  </div>
+</div>
+
+<div class="dashboard">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="page-title">Field Service Management Dashboard</div>
+      <div class="page-subtitle">Global Equipment & Tool Maintenance · Updated: Apr 23, 2026 · 09:15 UTC</div>
+    </div>
+    <div class="tab-group">
+      <div class="tab active">Overview</div>
+      <div class="tab">Work Orders</div>
+      <div class="tab">Engineers</div>
+      <div class="tab">Equipment</div>
+      <div class="tab">SLA</div>
+    </div>
+  </div>
+
+  <!-- KPI ROW 1 -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>Core Service KPIs — Q1 2026</div>
+    <div class="section-link">View Full Report →</div>
+  </div>
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-blue"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-blue">🔧</div>
+        <div class="delta-badge delta-up">▲ +8.3%</div>
+      </div>
+      <div class="kpi-label">Work Orders — Q1</div>
+      <div class="kpi-value">4,218</div>
+      <div class="kpi-sub">Open: 312 · Closed: 3,906</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-green"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-green">✅</div>
+        <div class="delta-badge delta-up">▲ +2.1pp</div>
+      </div>
+      <div class="kpi-label">First-Time Fix Rate</div>
+      <div class="kpi-value">87.4%</div>
+      <div class="kpi-sub">Target: 85% ✓ Exceeded</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-teal"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-teal">⏱</div>
+        <div class="delta-badge delta-down">▼ −18 min</div>
+      </div>
+      <div class="kpi-label">Mean Time to Repair (MTTR)</div>
+      <div class="kpi-value">3.8 hr</div>
+      <div class="kpi-sub">Target: ≤4 hr ✓ On Track</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-amber"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-amber">🚨</div>
+        <div class="delta-badge delta-down">▼ −14.2%</div>
+      </div>
+      <div class="kpi-label">P1 Escalations</div>
+      <div class="kpi-value">47</div>
+      <div class="kpi-sub">vs Q1 2025: 55 · Fab-critical</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-green"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-green">📈</div>
+        <div class="delta-badge delta-up">▲ +1.4pp</div>
+      </div>
+      <div class="kpi-label">Equipment Uptime</div>
+      <div class="kpi-value">96.7%</div>
+      <div class="kpi-sub">Critical tools: 98.1%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-blue"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-blue">👷</div>
+        <div class="delta-badge delta-flat">— stable</div>
+      </div>
+      <div class="kpi-label">Field Engineers (FTE)</div>
+      <div class="kpi-value">284</div>
+      <div class="kpi-sub">Utilization: 82% · Deployed: 231</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-purple"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-purple">⭐</div>
+        <div class="delta-badge delta-up">▲ +0.3</div>
+      </div>
+      <div class="kpi-label">Customer CSAT Score</div>
+      <div class="kpi-value">4.6/5</div>
+      <div class="kpi-sub">NPS: +62 · Responses: 1,847</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-red"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-red">💰</div>
+        <div class="delta-badge delta-down">▼ −6.1%</div>
+      </div>
+      <div class="kpi-label">Service Cost per WO</div>
+      <div class="kpi-value">$1,840</div>
+      <div class="kpi-sub">Total Q1 cost: $7.76M</div>
+    </div>
+
+  </div>
+
+  <!-- SLA GAUGES -->
+  <div class="section-header" style="margin-top:28px">
+    <div class="section-label"><div class="section-accent"></div>SLA Compliance by Priority</div>
+    <div class="section-link">SLA Detail →</div>
+  </div>
+  <div class="gauge-row">
+    <div class="gauge-card">
+      <div class="gauge-title">P1 — Critical (≤2 hr)</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 90 90" width="90" height="90">
+          <circle class="gauge-ring-bg" cx="45" cy="45" r="35"/>
+          <circle class="gauge-ring-fill" cx="45" cy="45" r="35" stroke="#E53935"
+            stroke-dasharray="219.9" stroke-dashoffset="22"/>
+        </svg>
+        <div class="gauge-center" style="color:#E53935">90%</div>
+      </div>
+      <div class="gauge-sub">Target: 95% · 47 WOs</div>
+      <div class="pill pill-amber" style="margin-top:6px">⚠ At Risk</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gauge-title">P2 — High (≤8 hr)</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 90 90" width="90" height="90">
+          <circle class="gauge-ring-bg" cx="45" cy="45" r="35"/>
+          <circle class="gauge-ring-fill" cx="45" cy="45" r="35" stroke="#F59E0B"
+            stroke-dasharray="219.9" stroke-dashoffset="22"/>
+        </svg>
+        <div class="gauge-center" style="color:#F59E0B">94%</div>
+      </div>
+      <div class="gauge-sub">Target: 92% · 612 WOs</div>
+      <div class="pill pill-green" style="margin-top:6px">✓ Met</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gauge-title">P3 — Standard (≤24 hr)</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 90 90" width="90" height="90">
+          <circle class="gauge-ring-bg" cx="45" cy="45" r="35"/>
+          <circle class="gauge-ring-fill" cx="45" cy="45" r="35" stroke="#1E6FD9"
+            stroke-dasharray="219.9" stroke-dashoffset="13.2"/>
+        </svg>
+        <div class="gauge-center" style="color:#1E6FD9">94%</div>
+      </div>
+      <div class="gauge-sub">Target: 90% · 2,184 WOs</div>
+      <div class="pill pill-green" style="margin-top:6px">✓ Exceeded</div>
+    </div>
+    <div class="gauge-card">
+      <div class="gauge-title">P4 — Planned (≤72 hr)</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 90 90" width="90" height="90">
+          <circle class="gauge-ring-bg" cx="45" cy="45" r="35"/>
+          <circle class="gauge-ring-fill" cx="45" cy="45" r="35" stroke="#1AAD6F"
+            stroke-dasharray="219.9" stroke-dashoffset="4.4"/>
+        </svg>
+        <div class="gauge-center" style="color:#1AAD6F">98%</div>
+      </div>
+      <div class="gauge-sub">Target: 95% · 1,375 WOs</div>
+      <div class="pill pill-green" style="margin-top:6px">✓ Exceeded</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 1 -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>Work Order Trends & Resolution</div>
+    <div class="section-link">Export Charts →</div>
+  </div>
+  <div class="chart-grid-2">
+
+    <!-- WO Volume Trend -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Monthly Work Order Volume</div>
+          <div class="chart-subtitle">Opened vs. Closed — last 12 months</div>
+        </div>
+        <div class="status-badge badge-green">Close Rate 92.6%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>Opened</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#0D9F8A"></div>Closed</div>
+      </div>
+      <div class="canvas-wrap" style="height:230px">
+        <canvas id="woVolumeChart"></canvas>
+      </div>
+    </div>
+
+    <!-- WO by Type Donut -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Work Order Type Breakdown</div>
+          <div class="chart-subtitle">Q1 2026 — by category</div>
+        </div>
+        <div class="status-badge badge-blue">4 Categories</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>Corrective 38%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#0D9F8A"></div>Preventive 31%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>Installation 18%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#94A3B8"></div>Calibration 13%</div>
+      </div>
+      <div class="canvas-wrap" style="height:230px">
+        <canvas id="woTypeDonut"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHARTS ROW 2 -->
+  <div class="chart-grid-3">
+
+    <!-- MTTR by Equipment Type -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">MTTR by Equipment Type</div>
+          <div class="chart-subtitle">Average hours — Q1 2026 vs Q1 2025</div>
+        </div>
+        <div class="status-badge badge-green">Avg ▼ −18 min</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>Q1 2026</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#CBD5E1"></div>Q1 2025</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="mttrChart"></canvas>
+      </div>
+    </div>
+
+    <!-- FTFR Trend -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">First-Time Fix Rate</div>
+          <div class="chart-subtitle">Monthly trend (%)</div>
+        </div>
+        <div class="status-badge badge-green">87.4%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-line" style="background:#1AAD6F"></div>FTFR %</div>
+        <div class="legend-item"><div class="legend-line" style="background:#F59E0B; border-top:2px dashed #F59E0B; background:none"></div>Target 85%</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="ftfrChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Escalations by Region -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">P1 Escalations by Region</div>
+          <div class="chart-subtitle">Q1 2026 count</div>
+        </div>
+        <div class="status-badge badge-amber">47 Total</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#E53935"></div>Escalations</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="escalationChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHARTS ROW 3 -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>Engineer Deployment & Equipment Health</div>
+  </div>
+  <div class="chart-grid-3b">
+
+    <!-- Engineer Utilization -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Engineer Utilization by Region</div>
+          <div class="chart-subtitle">Active vs. Available FTE — Q1 2026</div>
+        </div>
+        <div class="status-badge badge-blue">284 FTE Total</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>Deployed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#93C5FD"></div>Available</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="engineerChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Equipment Uptime Line -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Equipment Uptime Trend</div>
+          <div class="chart-subtitle">Monthly average (%) — by node</div>
+        </div>
+        <div class="status-badge badge-green">96.7% Avg</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>&lt;7nm</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#0D9F8A"></div>7–14nm</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>≥28nm</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="uptimeChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Parts Consumption -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Spare Parts Consumption</div>
+          <div class="chart-subtitle">Q1 2026 — top categories ($K)</div>
+        </div>
+        <div class="status-badge badge-purple">$2.14M Total</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#7C3AED"></div>Parts spend</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="partsChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ACTIVE WORK ORDERS TABLE -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>Active & Recent Work Orders</div>
+    <div class="section-link">View All 312 Open →</div>
+  </div>
+  <div class="table-card">
+    <div class="table-header">
+      <div>
+        <div class="chart-title">Work Order Queue — High Priority</div>
+        <div class="chart-subtitle">P1 & P2 orders requiring attention</div>
+      </div>
+      <div class="status-badge badge-red">312 Open</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>WO #</th>
+            <th>Priority</th>
+            <th>Equipment / Tool</th>
+            <th>Site / Fab</th>
+            <th>Engineer</th>
+            <th>Type</th>
+            <th>Opened</th>
+            <th>SLA Remaining</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono">WO-28841</td>
+            <td><span class="prio-dot prio-p1"></span><span class="pill pill-red">P1</span></td>
+            <td>ASML EUV NXE:3600D</td>
+            <td>Hsinchu Fab-12</td>
+            <td>Chen, Wei-Lin</td>
+            <td><span class="pill pill-blue">Corrective</span></td>
+            <td class="mono">Apr 23 07:14</td>
+            <td class="mono" style="color:#E53935">0h 46m</td>
+            <td><span class="pill pill-amber">In Progress</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28839</td>
+            <td><span class="prio-dot prio-p1"></span><span class="pill pill-red">P1</span></td>
+            <td>Applied Centura CVD</td>
+            <td>Seoul Fab-3</td>
+            <td>Park, Ji-Hoon</td>
+            <td><span class="pill pill-blue">Corrective</span></td>
+            <td class="mono">Apr 23 05:52</td>
+            <td class="mono" style="color:#E53935">Overdue</td>
+            <td><span class="pill pill-red">Escalated</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28835</td>
+            <td><span class="prio-dot prio-p2"></span><span class="pill pill-amber">P2</span></td>
+            <td>Lam Kiyo CCP Etch</td>
+            <td>Shanghai Fab-8</td>
+            <td>Zhang, Mei</td>
+            <td><span class="pill pill-blue">Corrective</span></td>
+            <td class="mono">Apr 23 04:30</td>
+            <td class="mono" style="color:#F59E0B">3h 30m</td>
+            <td><span class="pill pill-amber">In Progress</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28830</td>
+            <td><span class="prio-dot prio-p2"></span><span class="pill pill-amber">P2</span></td>
+            <td>KLA Surfscan SP7</td>
+            <td>Austin Fab-2</td>
+            <td>Ramirez, Carlos</td>
+            <td><span class="pill pill-green">Preventive</span></td>
+            <td class="mono">Apr 23 02:00</td>
+            <td class="mono" style="color:#1AAD6F">5h 15m</td>
+            <td><span class="pill pill-blue">Dispatched</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28827</td>
+            <td><span class="prio-dot prio-p2"></span><span class="pill pill-amber">P2</span></td>
+            <td>TEL Trias PECVD</td>
+            <td>Dresden Fab-1</td>
+            <td>Müller, Hans</td>
+            <td><span class="pill pill-blue">Corrective</span></td>
+            <td class="mono">Apr 22 22:10</td>
+            <td class="mono" style="color:#1AAD6F">2h 05m</td>
+            <td><span class="pill pill-amber">Pending Parts</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28821</td>
+            <td><span class="prio-dot prio-p2"></span><span class="pill pill-amber">P2</span></td>
+            <td>Hitachi CD-SEM CG6300</td>
+            <td>Hsinchu Fab-14</td>
+            <td>Liu, Cheng-Han</td>
+            <td><span class="pill pill-purple">Calibration</span></td>
+            <td class="mono">Apr 22 19:00</td>
+            <td class="mono" style="color:#E53935">Overdue</td>
+            <td><span class="pill pill-red">Escalated</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28817</td>
+            <td><span class="prio-dot prio-p3"></span><span class="pill pill-blue">P3</span></td>
+            <td>Brooks Automation</td>
+            <td>Kyoto Fab-6</td>
+            <td>Tanaka, Yuki</td>
+            <td><span class="pill pill-green">Preventive</span></td>
+            <td class="mono">Apr 22 14:00</td>
+            <td class="mono" style="color:#1AAD6F">8h 40m</td>
+            <td><span class="pill pill-blue">Scheduled</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28812</td>
+            <td><span class="prio-dot prio-p3"></span><span class="pill pill-blue">P3</span></td>
+            <td>Mattson Thermal RTP</td>
+            <td>Singapore Fab-5</td>
+            <td>Krishnan, Arun</td>
+            <td><span class="pill pill-gray">Installation</span></td>
+            <td class="mono">Apr 22 10:30</td>
+            <td class="mono" style="color:#1AAD6F">14h 10m</td>
+            <td><span class="pill pill-amber">In Progress</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28805</td>
+            <td><span class="prio-dot prio-p4"></span><span class="pill pill-gray">P4</span></td>
+            <td>Novellus Sequel PECVD</td>
+            <td>Portland Fab-1</td>
+            <td>Kim, Sandra</td>
+            <td><span class="pill pill-green">Preventive</span></td>
+            <td class="mono">Apr 21 08:00</td>
+            <td class="mono" style="color:#1AAD6F">38h 00m</td>
+            <td><span class="pill pill-blue">Scheduled</span></td>
+          </tr>
+          <tr>
+            <td class="mono">WO-28794</td>
+            <td><span class="prio-dot prio-p3"></span><span class="pill pill-blue">P3</span></td>
+            <td>ASML DUV NXT:2050i</td>
+            <td>Hsinchu Fab-12</td>
+            <td>Wang, Fang-Yu</td>
+            <td><span class="pill pill-purple">Calibration</span></td>
+            <td class="mono">Apr 21 06:00</td>
+            <td class="mono" style="color:#F59E0B">1h 30m</td>
+            <td><span class="pill pill-amber">In Progress</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-note">Data source: FSM System · ERP Integration · Updated: Apr 23, 2026 09:15 UTC · Internal use only</div>
+    <div class="btn-group">
+      <button class="btn-ghost" onclick="window.print()">🖨 Print</button>
+      <button class="btn-primary" onclick="exportCSV()">⬇ Export CSV</button>
+    </div>
+  </div>
+
+</div><!-- /dashboard -->
+
+<script>
+  Chart.defaults.font.family = "'DM Sans', sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#4A6585';
+
+  const months12 = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+  const months3  = ['Jan 2026','Feb 2026','Mar 2026'];
+
+  // 1. WO Volume (bar)
+  new Chart(document.getElementById('woVolumeChart'), {
+    type: 'bar',
+    data: {
+      labels: months12,
+      datasets: [
+        { label:'Opened', data:[320,308,334,342,318,356,371,348,390,402,418,410], backgroundColor:'#1E6FD9', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 },
+        { label:'Closed', data:[305,298,318,335,309,344,358,341,376,390,402,430], backgroundColor:'#0D9F8A', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} WOs`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, min:250}
+      }
+    }
+  });
+
+  // 2. WO Type Donut
+  new Chart(document.getElementById('woTypeDonut'), {
+    type:'doughnut',
+    data:{
+      labels:['Corrective','Preventive','Installation','Calibration'],
+      datasets:[{ data:[38,31,18,13], backgroundColor:['#1E6FD9','#0D9F8A','#F59E0B','#94A3B8'], borderWidth:2, borderColor:'#fff', hoverOffset:6 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}%`}} }
+    }
+  });
+
+  // 3. MTTR by Equipment
+  new Chart(document.getElementById('mttrChart'), {
+    type:'bar',
+    data:{
+      labels:['EUV Litho','DUV Litho','CVD','Etch','CMP','Metrology','Diffusion','Ion Implant'],
+      datasets:[
+        { label:'Q1 2026', data:[5.2,3.8,4.1,3.4,2.9,2.2,3.6,4.4], backgroundColor:'#1E6FD9', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 },
+        { label:'Q1 2025', data:[5.8,4.2,4.5,3.9,3.2,2.5,4.0,4.9], backgroundColor:'#CBD5E1', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} hrs`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{font:{size:10}}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}h`}, min:0}
+      }
+    }
+  });
+
+  // 4. FTFR Trend (line)
+  new Chart(document.getElementById('ftfrChart'), {
+    type:'line',
+    data:{
+      labels:months12,
+      datasets:[
+        { label:'FTFR', data:[83.2,84.1,83.8,85.0,84.7,86.1,85.8,86.5,87.0,86.8,87.9,88.2],
+          borderColor:'#1AAD6F', backgroundColor:'rgba(26,173,111,0.07)', tension:0.4, fill:true, pointBackgroundColor:'#1AAD6F', pointRadius:3 },
+        { label:'Target', data:[85,85,85,85,85,85,85,85,85,85,85,85],
+          borderColor:'#F59E0B', borderDash:[6,4], backgroundColor:'transparent', tension:0, fill:false, pointRadius:0 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(1)}%`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}%`}, min:80, max:92}
+      }
+    }
+  });
+
+  // 5. Escalations by Region (bar)
+  new Chart(document.getElementById('escalationChart'), {
+    type:'bar',
+    data:{
+      labels:['APAC-TW','APAC-KR','APAC-CN','Americas','Europe','SEA'],
+      datasets:[{ label:'P1 Escalations', data:[14,9,8,7,6,3],
+        backgroundColor:['#E53935','#EF5350','#F57C7C','#F59E0B','#F59E0B','#1AAD6F'],
+        borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} escalations`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{stepSize:2}, min:0}
+      }
+    }
+  });
+
+  // 6. Engineer Utilization by Region
+  new Chart(document.getElementById('engineerChart'), {
+    type:'bar',
+    data:{
+      labels:['APAC-TW','APAC-KR','APAC-CN','Americas','Europe','SEA'],
+      datasets:[
+        { label:'Deployed', data:[68,42,38,48,27,8], backgroundColor:'#1E6FD9', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 },
+        { label:'Available', data:[12,8,7,10,6,2],   backgroundColor:'#93C5FD', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y} FTE`}} },
+      scales:{
+        x:{stacked:false, grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v} FTE`}}
+      }
+    }
+  });
+
+  // 7. Equipment Uptime by Node
+  new Chart(document.getElementById('uptimeChart'), {
+    type:'line',
+    data:{
+      labels:months12,
+      datasets:[
+        { label:'<7nm',  data:[97.2,97.4,97.1,97.8,98.0,97.9,98.2,98.1,98.3,98.4,98.1,98.2],
+          borderColor:'#1E6FD9', backgroundColor:'rgba(30,111,217,0.07)', tension:0.35, fill:true, pointRadius:2 },
+        { label:'7–14nm', data:[95.8,96.1,95.9,96.4,96.8,96.5,96.7,96.9,97.1,97.0,96.8,96.9],
+          borderColor:'#0D9F8A', backgroundColor:'transparent', tension:0.35, fill:false, pointRadius:2 },
+        { label:'≥28nm', data:[93.2,93.8,93.5,94.2,94.5,94.1,94.8,94.6,95.0,94.9,95.2,95.4],
+          borderColor:'#F59E0B', backgroundColor:'transparent', tension:0.35, fill:false, pointRadius:2 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(1)}%`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}%`}, min:92, max:100}
+      }
+    }
+  });
+
+  // 8. Spare Parts (horizontal bar)
+  new Chart(document.getElementById('partsChart'), {
+    type:'bar',
+    data:{
+      labels:['EUV Optics','Pump Seals','RF Generators','Electrostatic Chucks','Gas MFCs','Robot Arms','Quartz Parts','Sensors & Gauges'],
+      datasets:[{ label:'Parts ($K)', data:[482,318,241,198,162,134,96,72],
+        backgroundColor:['#7C3AED','#7C3AED','#1E6FD9','#1E6FD9','#0D9F8A','#0D9F8A','#94A3B8','#94A3B8'],
+        borderRadius:4, barPercentage:0.65, categoryPercentage:0.8 }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` $${ctx.parsed.x}K`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`$${v}K`}},
+        y:{grid:{display:false}, ticks:{font:{size:10}}}
+      }
+    }
+  });
+
+  // CSV Export
+  function exportCSV() {
+    const rows = [
+      ['WO #','Priority','Equipment','Site','Engineer','Type','Opened','SLA Remaining','Status'],
+      ['WO-28841','P1','ASML EUV NXE:3600D','Hsinchu Fab-12','Chen Wei-Lin','Corrective','Apr 23 07:14','0h 46m','In Progress'],
+      ['WO-28839','P1','Applied Centura CVD','Seoul Fab-3','Park Ji-Hoon','Corrective','Apr 23 05:52','Overdue','Escalated'],
+      ['WO-28835','P2','Lam Kiyo CCP Etch','Shanghai Fab-8','Zhang Mei','Corrective','Apr 23 04:30','3h 30m','In Progress'],
+      ['WO-28830','P2','KLA Surfscan SP7','Austin Fab-2','Ramirez Carlos','Preventive','Apr 23 02:00','5h 15m','Dispatched'],
+      ['WO-28827','P2','TEL Trias PECVD','Dresden Fab-1','Müller Hans','Corrective','Apr 22 22:10','2h 05m','Pending Parts'],
+      ['WO-28821','P2','Hitachi CD-SEM CG6300','Hsinchu Fab-14','Liu Cheng-Han','Calibration','Apr 22 19:00','Overdue','Escalated'],
+      ['WO-28817','P3','Brooks Automation','Kyoto Fab-6','Tanaka Yuki','Preventive','Apr 22 14:00','8h 40m','Scheduled'],
+      ['WO-28812','P3','Mattson Thermal RTP','Singapore Fab-5','Krishnan Arun','Installation','Apr 22 10:30','14h 10m','In Progress'],
+      ['WO-28805','P4','Novellus Sequel PECVD','Portland Fab-1','Kim Sandra','Preventive','Apr 21 08:00','38h 00m','Scheduled'],
+      ['WO-28794','P3','ASML DUV NXT:2050i','Hsinchu Fab-12','Wang Fang-Yu','Calibration','Apr 21 06:00','1h 30m','In Progress'],
+    ];
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = 'semiconductor_fsm_workorders_Q1_2026.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Intelligence Dashboard Q1 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    :root {
+      --navy:        #0D1B2E;
+      --brand-red: #E5102A;
+      --brand-red2:#FF2B45;
+      --blue-mid:    #1E6FD9;
+      --blue-light:  #3B8FE8;
+      --blue-pale:   #7BB8F5;
+      --blue-frost:  #EBF4FD;
+      --teal:        #0D9F8A;
+      --amber:       #F59E0B;
+      --red:         #E5102A;
+      --green:       #1AAD6F;
+      --purple:      #7C3AED;
+      --slate-50:    #F8FAFD;
+      --slate-100:   #EEF3F9;
+      --slate-200:   #D8E3F0;
+      --text-primary:   #0D1F3C;
+      --text-secondary: #4A6585;
+      --text-muted:     #7B93B8;
+      --border:      rgba(30,111,217,0.12);
+      --shadow-sm:   0 1px 4px rgba(10,40,100,0.08), 0 0 0 1px rgba(30,111,217,0.06);
+      --shadow-md:   0 4px 16px rgba(10,40,100,0.10), 0 0 0 1px rgba(30,111,217,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--slate-50); color: var(--text-primary); min-height: 100vh; }
+
+    /* TOPBAR */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .logo-mark {
+      height: 34px; padding: 0 12px;
+      background: var(--brand-red);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -0.5px;
+    }
+    .brand-name { font-size: 15px; font-weight: 700; color: #fff; }
+    .brand-sub  { font-size: 11px; color: #8BA3C4; margin-top: 1px; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .period-badge { background: rgba(229,16,42,0.25); color: #FF8A96; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; border: 1px solid rgba(229,16,42,0.3); }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #1AAD6F; box-shadow: 0 0 0 3px rgba(26,173,111,0.25); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 3px rgba(26,173,111,0.25)}50%{box-shadow:0 0 0 6px rgba(26,173,111,0.10)} }
+    .live-label { font-size: 11px; color: #1AAD6F; font-weight: 500; }
+    .market-badge { display: flex; gap: 6px; }
+    .mkt { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 12px; }
+    .mkt-kr { background: rgba(30,111,217,0.2); color: #7BB8F5; }
+    .mkt-tw { background: rgba(13,159,138,0.2); color: #5EC9B8; }
+    .mkt-sg { background: rgba(245,158,11,0.2); color: #FBC02D; }
+
+    /* LAYOUT */
+    .dashboard { max-width: 1400px; margin: 0 auto; padding: 24px 28px 40px; }
+    .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+    .page-title { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+    .page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .tab-group { display: flex; gap: 4px; background: var(--slate-100); border-radius: 10px; padding: 4px; }
+    .tab { font-size: 12px; font-weight: 500; color: var(--text-secondary); padding: 6px 14px; border-radius: 7px; cursor: pointer; transition: all 0.15s; }
+    .tab.active { background: #fff; color: var(--brand-red); box-shadow: var(--shadow-sm); font-weight: 600; }
+    .tab:not(.active):hover { background: var(--blue-frost); }
+
+    /* SECTION */
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin: 24px 0 12px; }
+    .section-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
+    .section-accent { width: 3px; height: 14px; background: var(--brand-red); border-radius: 2px; }
+    .section-link { font-size: 11px; color: var(--blue-mid); font-weight: 500; cursor: pointer; }
+    .section-link:hover { text-decoration: underline; }
+
+    /* KPI GRID */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .kpi-card { background: #fff; border-radius: 14px; box-shadow: var(--shadow-sm); padding: 16px 18px 14px; position: relative; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; cursor: default; }
+    .kpi-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .kpi-top-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
+    .bar-red    { background: linear-gradient(90deg,#E5102A,#FF4560); }
+    .bar-blue   { background: linear-gradient(90deg,#1E6FD9,#3B8FE8); }
+    .bar-teal   { background: linear-gradient(90deg,#0D9F8A,#14C9A8); }
+    .bar-amber  { background: linear-gradient(90deg,#F59E0B,#FBC02D); }
+    .bar-green  { background: linear-gradient(90deg,#1AAD6F,#22C55E); }
+    .bar-purple { background: linear-gradient(90deg,#7C3AED,#A78BFA); }
+    .kpi-row { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .kpi-icon-box { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .icon-red    { background: rgba(229,16,42,0.10); }
+    .icon-blue   { background: rgba(30,111,217,0.12); }
+    .icon-teal   { background: rgba(13,159,138,0.12); }
+    .icon-amber  { background: rgba(245,158,11,0.12); }
+    .icon-green  { background: rgba(26,173,111,0.12); }
+    .icon-purple { background: rgba(124,58,237,0.12); }
+    .delta-badge { font-size: 10px; font-weight: 600; padding: 3px 7px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+    .delta-up   { background: rgba(26,173,111,0.12);  color: #1AAD6F; }
+    .delta-down { background: rgba(229,57,53,0.10);   color: #E53935; }
+    .delta-flat { background: rgba(74,101,133,0.10);  color: #4A6585; }
+    .kpi-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-muted); margin-bottom: 2px; }
+    .kpi-value { font-size: 26px; font-weight: 600; color: var(--text-primary); font-family: 'DM Mono', monospace; line-height: 1; }
+    .kpi-sub   { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+    /* CHARTS */
+    .chart-grid-2  { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .chart-grid-3  { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .chart-grid-3b { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .chart-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm); padding: 18px 20px 16px; transition: box-shadow 0.15s; }
+    .chart-card:hover { box-shadow: var(--shadow-md); }
+    .chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .chart-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .chart-subtitle { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .status-badge { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+    .badge-green  { background: rgba(26,173,111,0.12); color: #1AAD6F; }
+    .badge-amber  { background: rgba(245,158,11,0.12); color: #c07800; }
+    .badge-blue   { background: rgba(30,111,217,0.12); color: #1E6FD9; }
+    .badge-red    { background: rgba(229,16,42,0.10);  color: #E5102A; }
+    .badge-purple { background: rgba(124,58,237,0.12); color: #7C3AED; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+    .legend-item  { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); }
+    .legend-dot   { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-line  { width: 14px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+    .canvas-wrap  { position: relative; width: 100%; }
+
+    /* ROCKET DELIVERY HIGHLIGHT BANNER */
+    .rocket-banner {
+      background: linear-gradient(135deg, #0D1B2E 0%, #1a2e4a 100%);
+      border: 1px solid rgba(229,16,42,0.25);
+      border-radius: 14px; padding: 18px 24px;
+      display: grid; grid-template-columns: repeat(5,1fr); gap: 16px;
+      margin-bottom: 16px; position: relative; overflow: hidden;
+    }
+    .rocket-banner::before {
+      content: '🚀';
+      position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+      font-size: 64px; opacity: 0.08;
+    }
+    .rocket-stat { text-align: center; }
+    .rocket-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #8BA3C4; margin-bottom: 4px; }
+    .rocket-value { font-size: 22px; font-weight: 700; color: #fff; font-family: 'DM Mono', monospace; line-height: 1; }
+    .rocket-sub   { font-size: 10px; color: #5EC9B8; margin-top: 3px; }
+    .rocket-divider { width: 1px; background: rgba(255,255,255,0.08); margin: 0 8px; }
+
+    /* TABLE */
+    .table-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 16px; }
+    .table-header { padding: 16px 20px 12px; border-bottom: 1px solid var(--slate-200); display: flex; align-items: center; justify-content: space-between; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { background: var(--slate-100); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-muted); padding: 10px 14px; text-align: left; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid var(--slate-200); transition: background 0.12s; }
+    tbody tr:hover { background: var(--blue-frost); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 9px 14px; font-size: 12px; color: var(--text-primary); white-space: nowrap; }
+    .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
+    .pill { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+    .pill-green  { background: rgba(26,173,111,0.12); color: #1AAD6F; }
+    .pill-amber  { background: rgba(245,158,11,0.12); color: #c07800; }
+    .pill-red    { background: rgba(229,16,42,0.10);  color: #E5102A; }
+    .pill-blue   { background: rgba(30,111,217,0.12); color: #1E6FD9; }
+    .pill-purple { background: rgba(124,58,237,0.12); color: #7C3AED; }
+    .pill-gray   { background: rgba(74,101,133,0.10); color: #4A6585; }
+
+    /* MINI SPARKLINE PLACEHOLDER */
+    .spark { display: flex; align-items: flex-end; gap: 2px; height: 22px; }
+    .spark-bar { width: 4px; border-radius: 2px; background: #1E6FD9; opacity: 0.7; }
+
+    /* FOOTER */
+    .footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 0; border-top: 1px solid var(--slate-200); margin-top: 8px; }
+    .footer-note { font-size: 11px; color: var(--text-muted); }
+    .btn-group { display: flex; gap: 10px; }
+    .btn-ghost { font-size: 12px; font-weight: 500; padding: 7px 16px; border-radius: 8px; border: 1px solid var(--slate-200); background: #fff; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
+    .btn-ghost:hover { border-color: var(--blue-mid); color: var(--blue-mid); background: var(--blue-frost); }
+    .btn-primary { font-size: 12px; font-weight: 600; padding: 7px 16px; border-radius: 8px; border: none; background: var(--brand-red); color: #fff; cursor: pointer; transition: background 0.15s; }
+    .btn-primary:hover { background: #c40d24; }
+
+    @media (max-width:1000px) {
+      .kpi-grid { grid-template-columns: repeat(2,1fr); }
+      .chart-grid-2,.chart-grid-3,.chart-grid-3b { grid-template-columns:1fr; }
+      .rocket-banner { grid-template-columns: repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    
+    <div>
+      <div class="brand-name">Retailer Business Intelligence</div>
+      <div class="brand-sub">E-Commerce · Logistics · Marketplace · Streaming</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="market-badge">
+      <span class="mkt mkt-kr">🇰🇷 KR</span>
+      <span class="mkt mkt-tw">🇹🇼 TW</span>
+      <span class="mkt mkt-sg">🇸🇬 SG</span>
+    </div>
+    <div class="period-badge">Q1 2026 · Jan–Mar</div>
+    <div class="live-dot"></div>
+    <div class="live-label">Live</div>
+  </div>
+</div>
+
+<div class="dashboard">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="page-title">全平台業務儀表板</div>
+      <div class="page-subtitle">E-Commerce · Rocket Delivery · Marketplace · 資料截至 2026-04-23 09:00 KST</div>
+    </div>
+    <div class="tab-group">
+      <div class="tab active">總覽</div>
+      <div class="tab">電商</div>
+      <div class="tab">物流</div>
+      <div class="tab">賣家</div>
+      <div class="tab">Play</div>
+    </div>
+  </div>
+
+  <!-- KPI ROW 1 -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>核心業績指標 — Q1 2026</div>
+    <div class="section-link">查看完整報告 →</div>
+  </div>
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-red"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-red">💰</div>
+        <div class="delta-badge delta-up">▲ +21.4%</div>
+      </div>
+      <div class="kpi-label">總營收 (Revenue)</div>
+      <div class="kpi-value">₩9.84T</div>
+      <div class="kpi-sub">YoY Q1 2025: ₩8.11T</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-blue"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-blue">🛒</div>
+        <div class="delta-badge delta-up">▲ +18.7%</div>
+      </div>
+      <div class="kpi-label">商品交易額 (GMV)</div>
+      <div class="kpi-value">₩14.2T</div>
+      <div class="kpi-sub">Take Rate: 19.4%</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-green"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-green">📊</div>
+        <div class="delta-badge delta-up">▲ +3.2pp</div>
+      </div>
+      <div class="kpi-label">毛利率</div>
+      <div class="kpi-value">28.6%</div>
+      <div class="kpi-sub">毛利: ₩2.81T</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-teal"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-teal">👥</div>
+        <div class="delta-badge delta-up">▲ +9.3%</div>
+      </div>
+      <div class="kpi-label">活躍顧客數 (MAU)</div>
+      <div class="kpi-value">22.1M</div>
+      <div class="kpi-sub">WOW 會員: 14.8M (67%)</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-amber"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-amber">📦</div>
+        <div class="delta-badge delta-up">▲ +15.2%</div>
+      </div>
+      <div class="kpi-label">訂單量 (Orders)</div>
+      <div class="kpi-value">184M</div>
+      <div class="kpi-sub">日均: 2.04M 筆</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-blue"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-blue">🛍</div>
+        <div class="delta-badge delta-up">▲ +8.4%</div>
+      </div>
+      <div class="kpi-label">客單價 (AOV)</div>
+      <div class="kpi-value">₩77.1K</div>
+      <div class="kpi-sub">WOW 會員: ₩92.4K</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-purple"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-purple">🎬</div>
+        <div class="delta-badge delta-up">▲ +34.8%</div>
+      </div>
+      <div class="kpi-label">Play 訂閱</div>
+      <div class="kpi-value">8.2M</div>
+      <div class="kpi-sub">貢獻營收: ₩312B</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top-bar bar-green"></div>
+      <div class="kpi-row">
+        <div class="kpi-icon-box icon-green">📈</div>
+        <div class="delta-badge delta-up">▲ +0.8pp</div>
+      </div>
+      <div class="kpi-label">營業利益率 (OPM)</div>
+      <div class="kpi-value">4.2%</div>
+      <div class="kpi-sub">營業利益: ₩413B</div>
+    </div>
+
+  </div>
+
+  <!-- ROCKET DELIVERY BANNER -->
+  <div class="section-header" style="margin-top:28px">
+    <div class="section-label"><div class="section-accent"></div>🚀 Rocket Delivery 火箭配送 — 核心物流指標</div>
+    <div class="section-link">物流詳情 →</div>
+  </div>
+  <div class="rocket-banner">
+    <div class="rocket-stat">
+      <div class="rocket-label">當日達成率</div>
+      <div class="rocket-value">99.3%</div>
+      <div class="rocket-sub">目標 ≥99% ✓</div>
+    </div>
+    <div class="rocket-stat">
+      <div class="rocket-label">隔日達成率</div>
+      <div class="rocket-value">99.8%</div>
+      <div class="rocket-sub">+0.2pp YoY</div>
+    </div>
+    <div class="rocket-stat">
+      <div class="rocket-label">火箭配送訂單佔比</div>
+      <div class="rocket-value">73.4%</div>
+      <div class="rocket-sub">vs 68.1% Q1'25</div>
+    </div>
+    <div class="rocket-stat">
+      <div class="rocket-label">物流中心數</div>
+      <div class="rocket-value">168</div>
+      <div class="rocket-sub">覆蓋 97% 行政區</div>
+    </div>
+    <div class="rocket-stat">
+      <div class="rocket-label">Eats 配送</div>
+      <div class="rocket-value">42.8M</div>
+      <div class="rocket-sub">次 · ▲ +28.4% YoY</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 1: Revenue & GMV -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>營收與交易額趨勢</div>
+    <div class="section-link">匯出圖表 →</div>
+  </div>
+  <div class="chart-grid-2">
+
+    <!-- Revenue Trend -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">季度營收趨勢</div>
+          <div class="chart-subtitle">Revenue vs. 毛利（₩T）— 過去 7 季</div>
+        </div>
+        <div class="status-badge badge-green">YoY ▲21.4%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#E5102A"></div>營收</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1AAD6F"></div>毛利</div>
+      </div>
+      <div class="canvas-wrap" style="height:230px">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+
+    <!-- GMV by Category Donut -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">GMV 品類分布</div>
+          <div class="chart-subtitle">Q1 2026 — 各品類佔比</div>
+        </div>
+        <div class="status-badge badge-blue">5 大品類</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#E5102A"></div>生鮮食品 24%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>3C 電子 22%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#0D9F8A"></div>美妝保健 19%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>生活居家 18%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#7C3AED"></div>其他 17%</div>
+      </div>
+      <div class="canvas-wrap" style="height:230px">
+        <canvas id="categoryDonut"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHARTS ROW 2: Orders, AOV, Customer -->
+  <div class="chart-grid-3">
+
+    <!-- Monthly Orders -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">月度訂單量 & 客單價</div>
+          <div class="chart-subtitle">過去 12 個月訂單量（M）</div>
+        </div>
+        <div class="status-badge badge-green">▲ +15.2% YoY</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>訂單量 (M)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>AOV (₩K)</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="ordersChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Customer Segment Donut -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">顧客會員結構</div>
+          <div class="chart-subtitle">Q1 2026 — 22.1M MAU</div>
+        </div>
+        <div class="status-badge badge-purple">WOW 會員 67%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#E5102A"></div>WOW 會員 67%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#94A3B8"></div>一般會員 33%</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="memberDonut"></canvas>
+      </div>
+    </div>
+
+    <!-- MAU Trend -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">MAU 活躍用戶趨勢</div>
+          <div class="chart-subtitle">月活躍用戶（M）</div>
+        </div>
+        <div class="status-badge badge-green">22.1M ▲9.3%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-line" style="background:#1E6FD9"></div>MAU</div>
+        <div class="legend-item"><div class="legend-line" style="background:#E5102A"></div>WOW 會員</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="mauChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHARTS ROW 3: Delivery, Eats, Financials -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>物流表現 & 業務擴張</div>
+  </div>
+  <div class="chart-grid-3b">
+
+    <!-- Delivery Performance -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">配送履行率趨勢</div>
+          <div class="chart-subtitle">當日 & 隔日達成率（%）</div>
+        </div>
+        <div class="status-badge badge-green">99.3% / 99.8%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-line" style="background:#E5102A"></div>當日達成率</div>
+        <div class="legend-item"><div class="legend-line" style="background:#1E6FD9"></div>隔日達成率</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="deliveryChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Eats -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Eats 月訂單</div>
+          <div class="chart-subtitle">餐飲外送訂單量（M）</div>
+        </div>
+        <div class="status-badge badge-green">▲ +28.4% YoY</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0D9F8A"></div>月訂單（M）</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="eatsChart"></canvas>
+      </div>
+    </div>
+
+    <!-- P&L Waterfall-style -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">損益結構 Q1 2026</div>
+          <div class="chart-subtitle">收入 → 成本 → 利益（₩T）</div>
+        </div>
+        <div class="status-badge badge-green">OPM 4.2%</div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#1E6FD9"></div>營收</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#E5102A"></div>成本/費用</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1AAD6F"></div>利益</div>
+      </div>
+      <div class="canvas-wrap" style="height:210px">
+        <canvas id="plChart"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TOP SELLER CATEGORIES TABLE -->
+  <div class="section-header">
+    <div class="section-label"><div class="section-accent"></div>品類銷售表現 & 賣家指標</div>
+    <div class="section-link">完整賣家後台 →</div>
+  </div>
+  <div class="table-card">
+    <div class="table-header">
+      <div>
+        <div class="chart-title">品類銷售績效排行 — Q1 2026</div>
+        <div class="chart-subtitle">含 GMV、成長率、賣家數、退貨率與物流達成情況</div>
+      </div>
+      <div class="status-badge badge-red">14 大品類</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>品類</th>
+            <th>GMV Q1</th>
+            <th>YoY 成長</th>
+            <th>活躍賣家</th>
+            <th>火箭配送佔比</th>
+            <th>退貨率</th>
+            <th>顧客評分</th>
+            <th>表現</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono">01</td>
+            <td>🛒 <b>生鮮食品</b></td>
+            <td class="mono">₩3,408B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +24.1%</td>
+            <td class="mono">18,420</td>
+            <td><span class="pill pill-green">91.2%</span></td>
+            <td class="mono">2.1%</td>
+            <td class="mono">4.7 ⭐</td>
+            <td><span class="pill pill-green">卓越</span></td>
+          </tr>
+          <tr>
+            <td class="mono">02</td>
+            <td>📱 <b>3C 電子</b></td>
+            <td class="mono">₩3,124B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +18.8%</td>
+            <td class="mono">12,840</td>
+            <td><span class="pill pill-green">88.4%</span></td>
+            <td class="mono">4.8%</td>
+            <td class="mono">4.5 ⭐</td>
+            <td><span class="pill pill-green">卓越</span></td>
+          </tr>
+          <tr>
+            <td class="mono">03</td>
+            <td>💄 <b>美妝保健</b></td>
+            <td class="mono">₩2,698B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +31.2%</td>
+            <td class="mono">24,610</td>
+            <td><span class="pill pill-green">84.7%</span></td>
+            <td class="mono">3.2%</td>
+            <td class="mono">4.8 ⭐</td>
+            <td><span class="pill pill-green">卓越</span></td>
+          </tr>
+          <tr>
+            <td class="mono">04</td>
+            <td>🏠 <b>生活居家</b></td>
+            <td class="mono">₩2,556B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +14.6%</td>
+            <td class="mono">31,280</td>
+            <td><span class="pill pill-amber">72.3%</span></td>
+            <td class="mono">5.4%</td>
+            <td class="mono">4.4 ⭐</td>
+            <td><span class="pill pill-green">良好</span></td>
+          </tr>
+          <tr>
+            <td class="mono">05</td>
+            <td>👕 <b>服飾鞋包</b></td>
+            <td class="mono">₩1,988B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +9.4%</td>
+            <td class="mono">42,700</td>
+            <td><span class="pill pill-amber">61.8%</span></td>
+            <td class="mono">12.6%</td>
+            <td class="mono">4.2 ⭐</td>
+            <td><span class="pill pill-amber">關注</span></td>
+          </tr>
+          <tr>
+            <td class="mono">06</td>
+            <td>🍼 <b>嬰幼童</b></td>
+            <td class="mono">₩1,420B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +22.3%</td>
+            <td class="mono">8,920</td>
+            <td><span class="pill pill-green">94.1%</span></td>
+            <td class="mono">1.8%</td>
+            <td class="mono">4.9 ⭐</td>
+            <td><span class="pill pill-green">卓越</span></td>
+          </tr>
+          <tr>
+            <td class="mono">07</td>
+            <td>🐾 <b>寵物用品</b></td>
+            <td class="mono">₩812B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +38.7%</td>
+            <td class="mono">6,340</td>
+            <td><span class="pill pill-green">86.2%</span></td>
+            <td class="mono">2.4%</td>
+            <td class="mono">4.8 ⭐</td>
+            <td><span class="pill pill-green">卓越</span></td>
+          </tr>
+          <tr>
+            <td class="mono">08</td>
+            <td>🏋️ <b>運動戶外</b></td>
+            <td class="mono">₩698B</td>
+            <td class="mono" style="color:#c07800">▲ +6.1%</td>
+            <td class="mono">9,180</td>
+            <td><span class="pill pill-amber">68.4%</span></td>
+            <td class="mono">7.2%</td>
+            <td class="mono">4.3 ⭐</td>
+            <td><span class="pill pill-amber">關注</span></td>
+          </tr>
+          <tr>
+            <td class="mono">09</td>
+            <td>🚗 <b>汽車配件</b></td>
+            <td class="mono">₩442B</td>
+            <td class="mono" style="color:#E5102A">▼ −2.8%</td>
+            <td class="mono">4,820</td>
+            <td><span class="pill pill-amber">58.1%</span></td>
+            <td class="mono">8.9%</td>
+            <td class="mono">4.0 ⭐</td>
+            <td><span class="pill pill-red">待改善</span></td>
+          </tr>
+          <tr>
+            <td class="mono">10</td>
+            <td>📚 <b>書籍文具</b></td>
+            <td class="mono">₩356B</td>
+            <td class="mono" style="color:#1AAD6F">▲ +4.2%</td>
+            <td class="mono">3,140</td>
+            <td><span class="pill pill-green">92.8%</span></td>
+            <td class="mono">1.4%</td>
+            <td class="mono">4.6 ⭐</td>
+            <td><span class="pill pill-green">良好</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-note">資料來源：BI 系統 · 財務數據為估算值，僅供內部參考 · 更新：2026-04-23 09:00 KST</div>
+    <div class="btn-group">
+      <button class="btn-ghost" onclick="window.print()">🖨 列印</button>
+      <button class="btn-primary" onclick="exportCSV()">⬇ 匯出 CSV</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  Chart.defaults.font.family = "'DM Sans', sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#4A6585';
+
+  const months12 = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+
+  // 1. Revenue Trend (grouped bar)
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'bar',
+    data: {
+      labels: ["Q3'24","Q4'24","Q1'25","Q2'25","Q3'25","Q4'25","Q1'26"],
+      datasets: [
+        { label:'營收', data:[7.42, 8.68, 8.11, 8.54, 8.98, 9.48, 9.84],
+          backgroundColor:'#E5102A', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 },
+        { label:'毛利', data:[1.92, 2.28, 2.07, 2.31, 2.48, 2.68, 2.81],
+          backgroundColor:'#1AAD6F', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ₩${ctx.parsed.y.toFixed(2)}T`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`₩${v}T`}, min:0}
+      }
+    }
+  });
+
+  // 2. GMV Category Donut
+  new Chart(document.getElementById('categoryDonut'), {
+    type:'doughnut',
+    data:{
+      labels:['生鮮食品','3C 電子','美妝保健','生活居家','其他'],
+      datasets:[{ data:[24,22,19,18,17], backgroundColor:['#E5102A','#1E6FD9','#0D9F8A','#F59E0B','#7C3AED'], borderWidth:2, borderColor:'#fff', hoverOffset:6 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}%`}} }
+    }
+  });
+
+  // 3. Monthly Orders (bar + line)
+  new Chart(document.getElementById('ordersChart'), {
+    type:'bar',
+    data:{
+      labels: months12,
+      datasets:[
+        { label:'訂單量', data:[13.2,14.1,13.8,14.8,15.0,14.6,15.8,16.2,17.4,16.8,17.6,17.8],
+          backgroundColor:'#1E6FD9', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(1)}M 筆`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}M`}, min:10}
+      }
+    }
+  });
+
+  // 4. Member Donut
+  new Chart(document.getElementById('memberDonut'), {
+    type:'doughnut',
+    data:{
+      labels:['WOW 會員','一般會員'],
+      datasets:[{ data:[67,33], backgroundColor:['#E5102A','#94A3B8'], borderWidth:2, borderColor:'#fff', hoverOffset:6 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}%`}} }
+    }
+  });
+
+  // 5. MAU Trend (line)
+  new Chart(document.getElementById('mauChart'), {
+    type:'line',
+    data:{
+      labels: months12,
+      datasets:[
+        { label:'MAU', data:[18.2,18.8,19.1,19.4,19.8,20.2,20.6,20.9,21.2,21.4,21.8,22.1],
+          borderColor:'#1E6FD9', backgroundColor:'rgba(30,111,217,0.07)', tension:0.4, fill:true, pointRadius:2 },
+        { label:'WOW 會員', data:[11.4,11.9,12.2,12.6,13.0,13.3,13.6,13.9,14.2,14.4,14.6,14.8],
+          borderColor:'#E5102A', backgroundColor:'transparent', tension:0.4, fill:false, pointRadius:2 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(1)}M`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}M`}, min:10}
+      }
+    }
+  });
+
+  // 6. Delivery Performance (line)
+  new Chart(document.getElementById('deliveryChart'), {
+    type:'line',
+    data:{
+      labels: months12,
+      datasets:[
+        { label:'當日達成率', data:[98.4,98.6,98.8,98.9,99.0,99.1,99.1,99.2,99.2,99.3,99.3,99.3],
+          borderColor:'#E5102A', backgroundColor:'rgba(229,16,42,0.06)', tension:0.35, fill:true, pointRadius:2 },
+        { label:'隔日達成率', data:[99.2,99.3,99.4,99.5,99.5,99.6,99.6,99.7,99.7,99.8,99.8,99.8],
+          borderColor:'#1E6FD9', backgroundColor:'transparent', tension:0.35, fill:false, pointRadius:2 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(1)}%`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}%`}, min:97.5, max:100.5}
+      }
+    }
+  });
+
+  // 7. Eats Monthly
+  new Chart(document.getElementById('eatsChart'), {
+    type:'bar',
+    data:{
+      labels: months12,
+      datasets:[{ label:'Eats 訂單',
+        data:[2.8,3.1,3.0,3.4,3.6,3.5,3.8,4.0,4.2,4.1,4.3,4.4],
+        backgroundColor:'#0D9F8A', borderRadius:4, barPercentage:0.65, categoryPercentage:0.75 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toFixed(1)}M 筆`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`${v}M`}, min:0}
+      }
+    }
+  });
+
+  // 8. P&L Structure (bar)
+  new Chart(document.getElementById('plChart'), {
+    type:'bar',
+    data:{
+      labels:['營收','商品成本','履行成本','行銷費用','研發費用','G&A','營業利益'],
+      datasets:[{
+        label:'₩T',
+        data:[9.84, -4.82, -2.18, -0.98, -0.62, -0.81, 0.413],
+        backgroundColor:['#1E6FD9','#E5102A','#E5102A','#E5102A','#E5102A','#E5102A','#1AAD6F'],
+        borderRadius:4, barPercentage:0.7, categoryPercentage:0.8
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ₩${Math.abs(ctx.parsed.y).toFixed(2)}T`}} },
+      scales:{
+        x:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{font:{size:9}}},
+        y:{grid:{color:'rgba(30,111,217,0.07)'}, ticks:{callback:v=>`₩${v}T`}}
+      }
+    }
+  });
+
+  // CSV Export
+  function exportCSV() {
+    const rows = [
+      ['品類','GMV Q1','YoY','活躍賣家','火箭配送佔比','退貨率','顧客評分','表現'],
+      ['生鮮食品','₩3408B','+24.1%','18420','91.2%','2.1%','4.7','卓越'],
+      ['3C 電子','₩3124B','+18.8%','12840','88.4%','4.8%','4.5','卓越'],
+      ['美妝保健','₩2698B','+31.2%','24610','84.7%','3.2%','4.8','卓越'],
+      ['生活居家','₩2556B','+14.6%','31280','72.3%','5.4%','4.4','良好'],
+      ['服飾鞋包','₩1988B','+9.4%','42700','61.8%','12.6%','4.2','關注'],
+      ['嬰幼童','₩1420B','+22.3%','8920','94.1%','1.8%','4.9','卓越'],
+      ['寵物用品','₩812B','+38.7%','6340','86.2%','2.4%','4.8','卓越'],
+      ['運動戶外','₩698B','+6.1%','9180','68.4%','7.2%','4.3','關注'],
+      ['汽車配件','₩442B','-2.8%','4820','58.1%','8.9%','4.0','待改善'],
+      ['書籍文具','₩356B','+4.2%','3140','92.8%','1.4%','4.6','良好'],
+    ];
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+    a.download = 'category_performance_Q1_2026.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>
