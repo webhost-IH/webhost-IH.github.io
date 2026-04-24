@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INHEART 植心科技股份有限公司</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --deep-green:#1e2d45;--mid-green:#2a4060;--sage:#4a7a58;
+  --mint:#7ab8a0;--pale:#eef2f7;--cream:#f4f6f9;
+  --gold:#3a7a45;--text-dark:#1a2233;--text-light:#6a8099;
+  --navy:#1e2d45;--forest:#3a7a45;--steel:#4a6080;--ice:#e8eef5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter','Noto Sans TC',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden;}
+
+/* ── DESKTOP VERSION ── */
+.desktop-site{display:block;}
+
+/* ── MOBILE VERSION ── */
+.mobile-site{display:none;}
+
+/* ── DESKTOP NAV ── */
+.desktop-nav{position:relative;height:72px;background:rgba(20,32,54,.97);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 60px;z-index:9998;border-bottom:1px solid rgba(122,184,160,.1);}
+.nav-logo{font-family:'Inter',sans-serif;font-weight:800;font-size:19px;color:#fff;letter-spacing:.25em;text-transform:uppercase;}
+.nav-logo .logo-heart{color:var(--forest);position:relative;display:inline-block;}
+.nav-logo .logo-heart::after{content:'▲';font-size:9px;position:absolute;top:1px;left:50%;transform:translateX(-50%);color:var(--forest);}
+.nav-logo-en{font-family:'Inter',sans-serif;font-weight:800;font-size:19px;color:#fff;letter-spacing:.25em;text-transform:uppercase;display:none;}
+.nav-logo-en .logo-heart{color:var(--forest);}
+
+.nav-right{display:flex;align-items:center;gap:20px;}
+
+.nav-links{display:flex;gap:22px;align-items:center;}
+.nav-links a{color:rgba(200,215,235,.7);text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;transition:color .2s;position:relative;font-family:'Inter',sans-serif;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:100%;height:1px;background:var(--forest);transition:right .25s;}
+.nav-links a:hover{color:#fff;}
+.nav-links a:hover::after{right:0;}
+.nav-cta{background:var(--forest);color:#fff!important;padding:8px 20px;border-radius:6px;font-weight:600;font-size:11px!important;letter-spacing:.1em;}
+.nav-cta::after{display:none!important;}
+.nav-cta:hover{background:#2d6338!important;}
+
+.lang-switcher-nav{display:flex;gap:8px;align-items:center;}
+.lang-btn-nav{border:none;background:transparent;color:rgba(122,184,160,.6);font-size:12px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;padding:6px 10px;border-radius:20px;transition:all .25s;}
+.lang-btn-nav.active{color:#fff;background:rgba(122,184,160,.2);}
+.lang-btn-nav:hover:not(.active){color:var(--mint);}
+
+.m-menu-btn{display:none;}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:linear-gradient(145deg,#111e33 0%,#1a2a48 50%,#152338 100%);display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-bg-art{position:absolute;inset:0;pointer-events:none;}
+.hero-circle{position:absolute;border-radius:50%;border:1px solid rgba(58,122,69,.1);}
+.hero-circle:nth-child(1){width:600px;height:600px;top:-200px;right:-150px;}
+.hero-circle:nth-child(2){width:900px;height:900px;top:-350px;right:-350px;}
+.hero-circle:nth-child(3){width:400px;height:400px;bottom:-100px;left:-100px;border-color:rgba(58,122,69,.07);}
+.hero-leaves{position:absolute;right:8%;top:50%;transform:translateY(-50%);opacity:.06;font-size:300px;line-height:1;pointer-events:none;user-select:none;}
+.hero-content{position:relative;z-index:2;padding:0 60px;max-width:740px;animation:fadeUp .9s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(58,122,69,.18);border:1px solid rgba(58,122,69,.4);color:#6fc880;font-size:11px;letter-spacing:.18em;padding:6px 18px;border-radius:4px;margin-bottom:32px;font-family:'Inter',sans-serif;font-weight:500;text-transform:uppercase;}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:#6fc880;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Noto Serif TC',serif;font-size:clamp(32px,4.5vw,58px);font-weight:700;color:#fff;line-height:1.28;margin-bottom:24px;}
+.hero h1 em{font-style:normal;color:#6fc880;font-family:'Inter',sans-serif;font-weight:800;letter-spacing:.05em;}
+.hero p{color:rgba(180,200,225,.75);font-size:15px;line-height:1.9;margin-bottom:44px;max-width:560px;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--forest);color:#fff;padding:14px 32px;border-radius:6px;font-weight:700;font-size:13px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;font-family:'Inter',sans-serif;transition:all .25s;border:none;cursor:pointer;}
+.btn-primary:hover{background:#2d6338;transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,122,69,.4);}
+.btn-secondary{border:1px solid rgba(180,200,225,.25);color:rgba(180,200,225,.8);padding:14px 32px;border-radius:6px;font-size:13px;text-decoration:none;letter-spacing:.1em;text-transform:uppercase;font-family:'Inter',sans-serif;transition:all .25s;background:transparent;cursor:pointer;}
+.btn-secondary:hover{border-color:rgba(180,200,225,.5);background:rgba(180,200,225,.06);}
+.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:36px;border-top:1px solid rgba(180,200,225,.1);animation:fadeUp 1.1s ease .3s both;}
+.stat-item .num{font-family:'Inter',sans-serif;font-size:40px;color:#6fc880;line-height:1;font-weight:800;letter-spacing:-.02em;}
+.stat-item .label{font-size:11px;color:rgba(180,200,225,.5);margin-top:6px;letter-spacing:.12em;text-transform:uppercase;font-family:'Inter',sans-serif;}
+
+/* ── SECTION COMMONS ── */
+section{padding:96px 60px;}
+.section-label{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.22em;color:var(--forest);text-transform:uppercase;margin-bottom:18px;font-family:'Inter',sans-serif;font-weight:600;}
+.section-label::before{content:'';width:24px;height:2px;background:var(--forest);}
+.section-title{font-family:'Noto Serif TC',serif;font-size:clamp(26px,3.2vw,42px);color:var(--navy);line-height:1.3;margin-bottom:16px;}
+.section-sub{color:var(--text-light);font-size:15px;line-height:1.85;max-width:620px;}
+
+/* ── SERVICES ── */
+.services{background:var(--ice);}
+.services-header{margin-bottom:56px;}
+.training-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+.training-card{border-radius:12px;overflow:hidden;position:relative;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end;padding:38px;transition:transform .3s;}
+.training-card:hover{transform:scale(1.02);}
+.tc-powerbi{background:linear-gradient(145deg,#1e2d45 0%,#111e33 100%);}
+.tc-claude{background:linear-gradient(145deg,#1a2a3d 0%,#0d1829 100%);}
+.training-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,25,.96) 0%,rgba(5,10,25,.4) 55%,transparent 100%);}
+.training-content{position:relative;z-index:2;}
+.training-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(58,122,69,.2);border:1px solid rgba(58,122,69,.45);color:#6fc880;font-size:10px;letter-spacing:.14em;padding:4px 14px;border-radius:4px;margin-bottom:14px;font-family:'Inter',sans-serif;font-weight:600;text-transform:uppercase;}
+.training-card h3{font-family:'Noto Serif TC',serif;font-size:22px;color:#fff;margin-bottom:10px;line-height:1.35;}
+.training-card p{font-size:13px;color:rgba(180,200,230,.7);line-height:1.75;margin-bottom:18px;}
+.level-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.level-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.08em;font-family:'Inter',sans-serif;text-transform:uppercase;}
+.pill-beginner{background:rgba(122,184,160,.15);border:1px solid rgba(122,184,160,.3);color:var(--mint);}
+.pill-advanced{background:rgba(58,122,69,.18);border:1px solid rgba(58,122,69,.4);color:#6fc880;}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.8;}
+
+.consulting-divider{display:flex;align-items:center;gap:16px;margin:8px 0 28px;}
+.consulting-divider span{font-size:10px;letter-spacing:.2em;color:var(--steel);text-transform:uppercase;white-space:nowrap;font-family:'Inter',sans-serif;font-weight:600;}
+.consulting-divider::before,.consulting-divider::after{content:'';flex:1;height:1px;background:rgba(74,96,128,.2);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.service-card{background:#fff;border-radius:12px;padding:36px 30px;position:relative;overflow:hidden;transition:all .3s;border:1px solid rgba(74,96,128,.1);}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--forest));transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.service-card:hover{transform:translateY(-7px);box-shadow:0 22px 55px rgba(30,45,69,.12);}
+.service-card:hover::before{transform:scaleX(1);}
+.service-card.wide{grid-column:span 2;}
+.service-icon{width:50px;height:50px;background:var(--ice);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px;border:1px solid rgba(74,96,128,.08);}
+.service-card h3{font-family:'Noto Serif TC',serif;font-size:18px;color:var(--navy);margin-bottom:6px;}
+.service-card .s-sub{font-size:12px;color:var(--forest);margin-bottom:13px;font-weight:600;font-family:'Inter',sans-serif;letter-spacing:.03em;}
+.service-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.service-list li{font-size:12.5px;color:var(--text-light);padding-left:14px;position:relative;line-height:1.6;}
+.service-list li::before{content:'—';position:absolute;left:0;color:var(--forest);font-weight:700;font-size:10px;top:3px;}
+.service-target{font-size:11.5px;color:var(--steel);font-style:italic;}
+
+/* ── CASES ── */
+.cases{background:var(--cream);}
+.cases-header{margin-bottom:52px;}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.case-card{border-radius:12px;overflow:hidden;position:relative;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;padding:36px;transition:transform .3s;}
+.case-card:hover{transform:scale(1.02);}
+.case-card-1{background:linear-gradient(160deg,#1e2d45,#0d1829);}
+.case-card-2{background:linear-gradient(160deg,#1a2a45,#0d1a30);}
+.case-card-3{background:linear-gradient(160deg,#1e3245,#0e1c30);}
+.case-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,12,25,.96) 0%,rgba(5,12,25,.35) 55%,transparent 100%);}
+.case-content{position:relative;z-index:2;}
+.case-badge{display:inline-block;background:rgba(58,122,69,.22);border:1px solid rgba(58,122,69,.5);color:#6fc880;font-size:10px;letter-spacing:.14em;padding:4px 12px;border-radius:4px;margin-bottom:12px;font-family:'Inter',sans-serif;font-weight:600;text-transform:uppercase;}
+.case-card h3{font-family:'Noto Serif TC',serif;font-size:19px;color:#fff;margin-bottom:8px;line-height:1.4;}
+.case-challenge{font-size:12px;color:rgba(180,200,230,.6);line-height:1.7;margin-bottom:14px;}
+.case-results{display:flex;flex-direction:column;gap:6px;padding-top:14px;border-top:1px solid rgba(180,200,230,.1);}
+.case-result-item{font-size:12px;color:rgba(180,200,230,.85);padding-left:16px;position:relative;line-height:1.55;}
+.case-result-item::before{content:'✓';position:absolute;left:0;color:#6fc880;font-size:11px;font-weight:700;}
+
+/* ── WHY US ── */
+.whyus{background:var(--ice);}
+.whyus-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:52px;}
+.why-card{background:#fff;border-radius:12px;padding:30px 26px;border:1px solid rgba(74,96,128,.08);text-align:center;transition:all .28s;position:relative;overflow:hidden;}
+.why-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--forest));transform:scaleX(0);transition:transform .3s;}
+.why-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(30,45,69,.1);}
+.why-card:hover::after{transform:scaleX(1);}
+.why-icon{font-size:30px;margin-bottom:14px;}
+.why-card h4{font-family:'Noto Serif TC',serif;font-size:16px;color:var(--navy);margin-bottom:10px;}
+.why-card p{font-size:13px;color:var(--text-light);line-height:1.75;}
+
+/* ── CONTACT ── */
+.contact{background:var(--navy);position:relative;overflow:hidden;}
+.contact-bg-art{position:absolute;inset:0;pointer-events:none;}
+.contact-bg-c{position:absolute;border-radius:50%;}
+.contact-bg-c:nth-child(1){width:500px;height:500px;top:-200px;right:-100px;border:1px solid rgba(58,122,69,.07);}
+.contact-bg-c:nth-child(2){width:300px;height:300px;bottom:-100px;left:100px;border:1px solid rgba(58,122,69,.05);}
+.contact-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start;}
+.contact-info .section-title{color:#fff;}
+.contact-info .section-sub{color:rgba(180,200,230,.65);}
+
+/* Contact Form */
+.contact-form{background:rgba(255,255,255,.03);border:1px solid rgba(180,200,230,.08);border-radius:16px;padding:44px;backdrop-filter:blur(10px);}
+.form-title{font-family:'Noto Serif TC',serif;font-size:21px;color:#fff;margin-bottom:28px;}
+.form-group{margin-bottom:17px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group label{display:block;font-size:10px;color:rgba(180,200,230,.45);letter-spacing:.12em;margin-bottom:7px;font-family:'Inter',sans-serif;font-weight:600;text-transform:uppercase;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(180,200,230,.1);border-radius:6px;padding:11px 15px;color:#fff;font-size:13.5px;font-family:'Noto Sans TC',sans-serif;outline:none;transition:border-color .2s;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(180,200,230,.25);}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(58,122,69,.5);}
+.form-group input[data-fs-field]:invalid{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.05);}
+.form-group textarea{min-height:110px;resize:none;}
+.form-group select option{background:var(--navy);}
+[data-fs-error]{font-size:12px;color:#ef4444;margin-top:5px;display:none;}
+[data-fs-error].show{display:block;}
+[data-fs-success]{padding:14px;border-radius:6px;margin-bottom:17px;font-size:13px;font-weight:600;text-align:center;background:rgba(111,200,128,.2);color:#6fc880;border:1px solid rgba(111,200,128,.3);display:none;}
+[data-fs-success].show{display:block;}
+.btn-submit{width:100%;background:var(--forest);color:#fff;border:none;padding:14px;border-radius:6px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;margin-top:6px;}
+.btn-submit:hover:not(:disabled){background:#2d6338;transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,122,69,.4);}
+.btn-submit:disabled{background:#888;cursor:not-allowed;transform:none;}
+
+/* ── FOOTER ── */
+footer{background:#0d1829;padding:36px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;border-top:1px solid rgba(180,200,230,.06);}
+.footer-logo{font-family:'Inter',sans-serif;font-size:16px;color:#fff;font-weight:800;letter-spacing:.22em;text-transform:uppercase;}
+.footer-logo span{color:var(--forest);}
+.footer-tagline{font-size:10px;color:rgba(180,200,230,.3);letter-spacing:.1em;margin-top:4px;font-family:'Inter',sans-serif;text-transform:uppercase;}
+footer p{font-size:12px;color:rgba(180,200,230,.25);font-family:'Inter',sans-serif;}
+
+/* ── EN overrides ── */
+body.en .nav-logo{display:none;}
+body.en .nav-logo-en{display:block;}
+body.en .section-title,body.en .hero h1,body.en .service-card h3,body.en .case-card h3,
+body.en .form-title,body.en .why-card h4,body.en .training-card h3{font-family:'Playfair Display',serif;}
+body.en .footer-logo{font-family:'Inter',sans-serif;}
+body.en .hero h1{font-size:clamp(28px,4vw,50px);}
+
+/* ════════ MOBILE RESPONSIVE (max-width: 768px) ════════ */
+@media (max-width: 768px) {
+  .desktop-site{display:none !important;}
+  .mobile-site{display:block;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════ DESKTOP VERSION ════════ -->
+<div class="desktop-site">
+
+  <nav class="desktop-nav">
+    <div class="nav-logo">IN<span class="logo-heart">H</span>EART</div>
+    <div class="nav-logo-en">IN<span class="logo-heart">H</span>EART</div>
+    
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#services" data-i18n="navServices">服務項目</a>
+        <a href="#cases" data-i18n="navCases">成功案例</a>
+        <a href="#whyus" data-i18n="navWhy">我們的優勢</a>
+        <a href="https://www.inheart.tw/INHEART-tech_6.html" target="_blank" rel="noopener" data-i18n="navDemo">Dashboard Demo</a>
+        <a href="#contact" class="nav-cta" data-i18n="navCta">聯絡我們</a>
+      </div>
+      <div class="lang-switcher-nav">
+        <button class="lang-btn-nav active" id="btn-zh-nav" onclick="switchLang('zh')">中文</button>
+        <button class="lang-btn-nav" id="btn-en-nav" onclick="switchLang('en')">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg-art"><div class="hero-circle"></div><div class="hero-circle"></div><div class="hero-circle"></div></div>
+    <div class="hero-leaves">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:400px;height:400px;opacity:.06;">
+        <polygon points="200,20 380,360 20,360" fill="none" stroke="#3a7a45" stroke-width="2"/>
+        <polygon points="200,80 340,340 60,340" fill="none" stroke="#3a7a45" stroke-width="1.5"/>
+        <polygon points="200,140 300,320 100,320" fill="#3a7a45" opacity=".3"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag" data-i18n="heroTag">植心科技股份有限公司</div>
+      <h1 data-i18n-html="heroH1">從<em>心</em>出發<br>讓數據成為決策的力量</h1>
+      <p data-i18n="heroP">植心科技提供企業級 Power BI Dashboard 建置、數據決策顧問，以及 AI 工具教育訓練，協助企業從數據洞察到組織升級，打造永續競爭優勢。</p>
+      <div class="hero-btns">
+        <a href="#services" class="btn-primary" data-i18n="heroBtnPri">探索服務 →</a>
+        <a href="https://www.inheart.tw/INHEART-tech_6.html" target="_blank" rel="noopener" class="btn-secondary" data-i18n="heroBtnDemo">查看 Dashboard Demo</a>
+        <a href="#contact" class="btn-secondary" data-i18n="heroBtnSec">聯絡我們</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="num">800+</div><div class="label" data-i18n="stat1">每季活躍用戶</div></div>
+        <div class="stat-item"><div class="num">10<span data-i18n="statYr">年</span></div><div class="label" data-i18n="stat3">深耕經驗</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header">
+      <div class="section-label" data-i18n="secLblServices">服務項目</div>
+      <h2 class="section-title" data-i18n="secTitleServices">全方位數位賦能服務</h2>
+      <p class="section-sub" data-i18n="secSubServices">從教育訓練到顧問導入，植心科技提供端到端的數據決策轉型服務。</p>
+    </div>
+
+    <div class="training-row">
+      <div class="training-card tc-powerbi">
+        <div class="training-overlay"></div>
+        <div class="training-content">
+          <div class="training-badge">🎓 <span data-i18n="trainLabel">教育訓練</span></div>
+          <h3 data-i18n="t1Title">企業 Power BI Dashboard 教育訓練</h3>
+          <p data-i18n="t1Desc">從零開始到進階應用，培養企業內部的 Power BI 實戰能力。課程結合真實業務場景，讓學員能立即將所學應用於日常工作。</p>
+          <div class="level-pills">
+            <span class="level-pill pill-beginner"><span class="pill-dot"></span><span data-i18n="beginner">Beginner 入門班</span></span>
+            <span class="level-pill pill-advanced"><span class="pill-dot"></span><span data-i18n="advanced">Advanced 進階班</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="training-card tc-claude">
+        <div class="training-overlay"></div>
+        <div class="training-content">
+          <div class="training-badge">🤖 <span data-i18n="trainLabel">教育訓練</span></div>
+          <h3 data-i18n="t2Title">Claude Coworker AI 教育訓練</h3>
+          <p data-i18n="t2Desc">將 Claude AI 打造為您的職場夥伴。學習如何運用 AI 工具提升工作效率、輔助決策分析，讓每位員工都能善用 AI 的力量。</p>
+          <div class="level-pills">
+            <span class="level-pill pill-beginner"><span class="pill-dot"></span><span data-i18n="beginner">Beginner 入門班</span></span>
+            <span class="level-pill pill-advanced"><span class="pill-dot"></span><span data-i18n="advanced">Advanced 進階班</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="consulting-divider">
+      <span data-i18n="consultingLabel">顧問服務</span>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3 data-i18n="s1Title">Dashboard 與 KPI 設計</h3>
+        <p class="s-sub" data-i18n="s1Sub">讓管理層一眼看懂營運狀況</p>
+        <ul class="service-list">
+          <li data-i18n="s1l1">Power BI Dashboard 建置與優化</li>
+          <li data-i18n="s1l2">KPI 架構設計與重整</li>
+          <li data-i18n="s1l3">跨部門數據整合</li>
+          <li data-i18n="s1l4">管理層專用決策儀表板</li>
+        </ul>
+        <p class="service-target" data-i18n="s1Target">👉 適合：業務、營運、管理團隊</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3 data-i18n="s2Title">商業分析與預測模型</h3>
+        <p class="s-sub" data-i18n="s2Sub">從「事後分析」進化為「提前預測」</p>
+        <ul class="service-list">
+          <li data-i18n="s2l1">銷售預測（Sales Forecast）</li>
+          <li data-i18n="s2l2">毛利分析（Margin Analysis）</li>
+          <li data-i18n="s2l3">情境模擬（Scenario Planning）</li>
+        </ul>
+        <p class="service-target" data-i18n="s2Target">👉 幫助企業提前掌握市場變化</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔄</div>
+        <h3 data-i18n="s3Title">Dashboard 導入推動</h3>
+        <p class="s-sub" data-i18n="s3Sub">讓數據真正被使用，而不是被忽略</p>
+        <ul class="service-list">
+          <li data-i18n="s3l1">使用者培訓與分群</li>
+          <li data-i18n="s3l2">Super User 制度建立</li>
+          <li data-i18n="s3l3">使用率追蹤與優化</li>
+          <li data-i18n="s3l4">內部推廣策略設計</li>
+        </ul>
+        <p class="service-target" data-i18n="s3Target">👉 解決「報表做好但沒人用」的問題</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3 data-i18n="s4Title">數據決策顧問（DDDM）</h3>
+        <p class="s-sub" data-i18n="s4Sub">打造企業的數據決策能力</p>
+        <ul class="service-list">
+          <li data-i18n="s4l1">數據決策流程設計</li>
+          <li data-i18n="s4l2">KPI 與決策連動機制</li>
+          <li data-i18n="s4l3">管理層數據思維培養</li>
+          <li data-i18n="s4l4">Data Governance 建立</li>
+        </ul>
+      </div>
+      <div class="service-card wide">
+        <div class="service-icon">🚀</div>
+        <h3 data-i18n="s5Title">數據轉型規劃</h3>
+        <p class="s-sub" data-i18n="s5Sub">從工具導入到組織升級</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;">
+          <ul class="service-list">
+            <li data-i18n="s5l1">數據策略 Roadmap（1–3年）</li>
+            <li data-i18n="s5l2">系統整合建議（ERP / CRM / BI）</li>
+          </ul>
+          <ul class="service-list">
+            <li data-i18n="s5l3">Data Team 架構設計</li>
+            <li data-i18n="s5l4">數據文化建立</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section class="cases" id="cases">
+    <div class="cases-header">
+      <div class="section-label" data-i18n="secLblCases">成功案例</div>
+      <h2 class="section-title" data-i18n="secTitleCases">以成果說話</h2>
+      <p class="section-sub" data-i18n="secSubCases">攜手各產業領導企業，共同創造可量化的數位轉型價值。</p>
+    </div>
+    <div class="cases-grid">
+      <div class="case-card case-card-1">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c1Badge">跨國企業</span>
+          <h3 data-i18n="c1Title">Dashboard 專案推動</h3>
+          <p class="case-challenge" data-i18n="c1Challenge">企業內部用 Excel 報表，各部門數據不一致，決策依然依賴經驗。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c1r1">全球近 800 人使用相同數據做報告</div>
+            <div class="case-result-item" data-i18n="c1r2">管理層定期以 Dashboard 進行決策</div>
+            <div class="case-result-item" data-i18n="c1r3">大幅提升跨區域溝通效率</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card case-card-2">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c2Badge">業務預測</span>
+          <h3 data-i18n="c2Title">業務預測模型建立</h3>
+          <p class="case-challenge" data-i18n="c2Challenge">銷售預測不準，影響庫存與營收規劃，資源配置失衡。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c2r1">預測準確率顯著提升</div>
+            <div class="case-result-item" data-i18n="c2r2">提前掌握市場需求變化</div>
+            <div class="case-result-item" data-i18n="c2r3">降低庫存與缺貨風險</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card case-card-3">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c3Badge">文化導入</span>
+          <h3 data-i18n="c3Title">數據決策文化導入</h3>
+          <p class="case-challenge" data-i18n="c3Challenge">企業擁有數據，但缺乏決策機制，憑感覺做決策的情況普遍。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c3r1">決策速度顯著提升</div>
+            <div class="case-result-item" data-i18n="c3r2">組織對數據的信任度提高</div>
+            <div class="case-result-item" data-i18n="c3r3">減少憑感覺決策的情況</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="whyus" id="whyus">
+    <div class="section-label" data-i18n="secLblWhy">我們的優勢</div>
+    <h2 class="section-title" data-i18n="secTitleWhy">為什麼選擇植心科技</h2>
+    <p class="section-sub" data-i18n="secSubWhy">實戰出發，落地為本，每一個服務都以「真正被使用」為目標。</p>
+    <div class="whyus-grid">
+      <div class="why-card"><div class="why-icon">🏆</div><h4 data-i18n="w1Title">實戰經驗</h4><p data-i18n="w1Desc">成功推動跨區域數據專案，具備真實落地經驗。</p></div>
+      <div class="why-card"><div class="why-icon">💡</div><h4 data-i18n="w2Title">不只技術</h4><p data-i18n="w2Desc">結合商業與管理思維，讓技術真正服務決策。</p></div>
+      <div class="why-card"><div class="why-icon">🎯</div><h4 data-i18n="w3Title">重視落地</h4><p data-i18n="w3Desc">確保數據「真的被使用」，而非只是做好卻束之高閣。</p></div>
+      <div class="why-card"><div class="why-icon">🔧</div><h4 data-i18n="w4Title">客製化方案</h4><p data-i18n="w4Desc">依企業規模、產業與需求設計專屬解決方案。</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-bg-art"><div class="contact-bg-c"></div><div class="contact-bg-c"></div></div>
+    <div class="contact-inner">
+      <div class="contact-info">
+        <div class="section-label" data-i18n="secLblContact">聯絡我們</div>
+        <h2 class="section-title" data-i18n-html="secTitleContact">讓我們開始<br>一段合作</h2>
+        <p class="section-sub" style="color:rgba(180,200,230,.65);" data-i18n="secSubContact">無論您正面臨何種數位轉型挑戰，植心科技的專業團隊都樂於提供客製化解決方案。</p>
+      </div>
+
+      <div class="contact-form">
+        <h3 class="form-title" data-i18n="formTitle">送出諮詢需求</h3>
+        <div data-fs-success id="form-success"></div>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="fName">姓名</label>
+              <input type="text" name="fullName" data-fs-field required placeholder="王大明">
+              <span data-fs-error="fullName"></span>
+            </div>
+            <div class="form-group">
+              <label data-i18n="fCo">公司名稱</label>
+              <input type="text" name="company" data-fs-field placeholder="XX 股份有限公司">
+              <span data-fs-error="company"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="fEmail">電子信箱</label>
+              <input type="email" name="email" data-fs-field required placeholder="email@example.com">
+              <span data-fs-error="email"></span>
+            </div>
+            <div class="form-group">
+              <label data-i18n="fTel">聯絡電話</label>
+              <input type="tel" name="phone" data-fs-field placeholder="09XX-XXXXXX">
+              <span data-fs-error="phone"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="fService">感興趣的服務</label>
+            <select name="service" data-fs-field required>
+              <option value="">-- 請選擇服務項目 --</option>
+              <option value="Power BI 教育訓練">Power BI 教育訓練</option>
+              <option value="Claude AI 教育訓練">Claude AI 教育訓練</option>
+              <option value="Dashboard 與 KPI 設計">Dashboard 與 KPI 設計</option>
+              <option value="商業分析與預測模型">商業分析與預測模型</option>
+              <option value="Dashboard 導入推動">Dashboard 導入推動</option>
+              <option value="數據決策顧問">數據決策顧問</option>
+              <option value="數據轉型規劃">數據轉型規劃</option>
+            </select>
+            <span data-fs-error="service"></span>
+          </div>
+          <div class="form-group">
+            <label data-i18n="fMsg">需求說明</label>
+            <textarea name="message" data-fs-field placeholder="請簡述您的企業現況與目標…"></textarea>
+            <span data-fs-error="message"></span>
+          </div>
+          <button type="submit" class="btn-submit" data-fs-submit-btn data-i18n="fSubmit">送出需求 →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="footer-logo">IN<span>H</span>EART 植心科技股份有限公司</div>
+      <div class="footer-tagline">Data-Driven Decision Making Partner</div>
+    </div>
+    <p data-i18n="footerCopy">© 2026 INHEART 植心科技股份有限公司．版權所有</p>
+  </footer>
+
+</div>
+
+<!-- ════════ MOBILE VERSION ════════ -->
+<div class="mobile-site">
+  
+  <nav class="desktop-nav" style="padding:0 20px 0 30px;">
+    <div class="nav-logo">IN<span class="logo-heart">H</span>EART</div>
+    <div class="nav-logo-en">IN<span class="logo-heart">H</span>EART</div>
+    
+    <div class="nav-right">
+      <div class="lang-switcher-nav">
+        <button class="lang-btn-nav active" id="btn-zh-mobile" onclick="switchLang('zh')">中文</button>
+        <button class="lang-btn-nav" id="btn-en-mobile" onclick="switchLang('en')">EN</button>
+      </div>
+      <button class="m-menu-btn" id="menu-btn" style="display:flex;"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE HERO -->
+  <section class="hero" id="home-mobile" style="padding:0;">
+    <div class="hero-bg-art"><div class="hero-circle"></div><div class="hero-circle"></div><div class="hero-circle"></div></div>
+    <div class="hero-leaves">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:400px;height:400px;opacity:.06;">
+        <polygon points="200,20 380,360 20,360" fill="none" stroke="#3a7a45" stroke-width="2"/>
+        <polygon points="200,80 340,340 60,340" fill="none" stroke="#3a7a45" stroke-width="1.5"/>
+        <polygon points="200,140 300,320 100,320" fill="#3a7a45" opacity=".3"/>
+      </svg>
+    </div>
+    <div class="hero-content" style="padding:44px 24px;">
+      <div class="hero-tag" data-i18n="heroTag">植心科技股份有限公司</div>
+      <h1 data-i18n-html="heroH1" style="font-size:28px;">從<em>心</em>出發<br>讓數據成為決策的力量</h1>
+      <p data-i18n="mHeroP">提供 Power BI 教育訓練、Claude AI 培訓與數據顧問服務，協助企業打造數據驅動決策文化。</p>
+      <div class="hero-btns" style="flex-direction:column;gap:10px;">
+        <a href="#services" class="btn-primary" style="text-align:center;" data-i18n="heroBtnPri">探索服務 →</a>
+        <a href="https://www.inheart.tw/INHEART-tech_6.html" target="_blank" rel="noopener" class="btn-secondary" style="text-align:center;" data-i18n="heroBtnDemo">查看 Dashboard Demo</a>
+        <a href="#contact" class="btn-secondary" style="text-align:center;" data-i18n="heroBtnSec">聯絡我們</a>
+      </div>
+      <div class="hero-stats" style="flex-direction:column;gap:24px;">
+        <div class="stat-item"><div class="num">800+</div><div class="label" data-i18n="stat1">活躍用戶</div></div>
+        <div class="stat-item"><div class="num">10<span data-i18n="statYr">年</span></div><div class="label" data-i18n="stat3">深耕經驗</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE SERVICES -->
+  <section class="services" id="services-mobile" style="padding:48px 24px;">
+    <div class="services-header">
+      <div class="section-label" data-i18n="secLblServices">服務項目</div>
+      <h2 class="section-title" data-i18n="secTitleServices" style="font-size:22px;">全方位數位賦能服務</h2>
+      <p class="section-sub" data-i18n="mSecSub">從教育訓練到顧問導入，端到端數據決策轉型。</p>
+    </div>
+
+    <div class="training-row" style="grid-template-columns:1fr;">
+      <div class="training-card tc-powerbi">
+        <div class="training-overlay"></div>
+        <div class="training-content">
+          <div class="training-badge">🎓 <span data-i18n="trainLabel">教育訓練</span></div>
+          <h3 data-i18n="t1Title" style="font-size:18px;">企業 Power BI Dashboard 教育訓練</h3>
+          <p data-i18n="mt1Desc" style="font-size:12px;">培養企業內部 Power BI 實戰能力，結合真實業務場景即學即用。</p>
+          <div class="level-pills">
+            <span class="level-pill pill-beginner"><span class="pill-dot"></span><span data-i18n="beginner">Beginner 入門班</span></span>
+            <span class="level-pill pill-advanced"><span class="pill-dot"></span><span data-i18n="advanced">Advanced 進階班</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="training-card tc-claude">
+        <div class="training-overlay"></div>
+        <div class="training-content">
+          <div class="training-badge">🤖 <span data-i18n="trainLabel">教育訓練</span></div>
+          <h3 data-i18n="t2Title" style="font-size:18px;">Claude Coworker AI 教育訓練</h3>
+          <p data-i18n="mt2Desc" style="font-size:12px;">將 Claude AI 打造為職場夥伴，學習 AI 工具提升效率與決策分析。</p>
+          <div class="level-pills">
+            <span class="level-pill pill-beginner"><span class="pill-dot"></span><span data-i18n="beginner">Beginner 入門班</span></span>
+            <span class="level-pill pill-advanced"><span class="pill-dot"></span><span data-i18n="advanced">Advanced 進階班</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="consulting-divider">
+      <span data-i18n="consultingLabel">顧問服務</span>
+    </div>
+
+    <div class="services-grid" style="grid-template-columns:1fr;">
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3 data-i18n="s1Title" style="font-size:15px;">Dashboard 與 KPI 設計</h3>
+        <p class="s-sub" data-i18n="s1Sub">讓管理層一眼看懂營運狀況</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s1l1">Power BI Dashboard 建置與優化</li>
+          <li data-i18n="s1l2">KPI 架構設計與重整</li>
+          <li data-i18n="s1l3">跨部門數據整合</li>
+          <li data-i18n="s1l4">管理層專用決策儀表板</li>
+        </ul>
+        <p class="service-target" data-i18n="s1Target">👉 適合：業務、營運、管理團隊</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3 data-i18n="s2Title" style="font-size:15px;">商業分析與預測模型</h3>
+        <p class="s-sub" data-i18n="s2Sub">從「事後分析」進化為「提前預測」</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s2l1">銷售預測（Sales Forecast）</li>
+          <li data-i18n="s2l2">毛利分析（Margin Analysis）</li>
+          <li data-i18n="s2l3">情境模擬（Scenario Planning）</li>
+        </ul>
+        <p class="service-target" data-i18n="s2Target">👉 幫助企業提前掌握市場變化</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔄</div>
+        <h3 data-i18n="s3Title" style="font-size:15px;">Dashboard 導入推動</h3>
+        <p class="s-sub" data-i18n="s3Sub">讓數據真正被使用，而不是被忽略</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s3l1">使用者培訓與分群</li>
+          <li data-i18n="s3l2">Super User 制度建立</li>
+          <li data-i18n="s3l3">使用率追蹤與優化</li>
+          <li data-i18n="s3l4">內部推廣策略設計</li>
+        </ul>
+        <p class="service-target" data-i18n="s3Target">👉 解決「報表做好但沒人用」的問題</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧠</div>
+        <h3 data-i18n="s4Title" style="font-size:15px;">數據決策顧問（DDDM）</h3>
+        <p class="s-sub" data-i18n="s4Sub">打造企業的數據決策能力</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s4l1">數據決策流程設計</li>
+          <li data-i18n="s4l2">KPI 與決策連動機制</li>
+          <li data-i18n="s4l3">管理層數據思維培養</li>
+          <li data-i18n="s4l4">Data Governance 建立</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🚀</div>
+        <h3 data-i18n="s5Title" style="font-size:15px;">數據轉型規劃</h3>
+        <p class="s-sub" data-i18n="s5Sub">從工具導入到組織升級</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s5l1">數據策略 Roadmap（1–3年）</li>
+          <li data-i18n="s5l2">系統整合建議（ERP / CRM / BI）</li>
+          <li data-i18n="s5l3">Data Team 架構設計</li>
+          <li data-i18n="s5l4">數據文化建立</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE CASES -->
+  <section class="cases" id="cases-mobile" style="padding:48px 24px;">
+    <div class="cases-header">
+      <div class="section-label" data-i18n="secLblCases">成功案例</div>
+      <h2 class="section-title" data-i18n="secTitleCases" style="font-size:22px;">以成果說話</h2>
+      <p class="section-sub" data-i18n="secSubCases">攜手各產業領導企業，共同創造可量化的數位轉型價值。</p>
+    </div>
+    <div class="cases-grid" style="grid-template-columns:1fr;">
+      <div class="case-card case-card-1">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c1Badge">跨國企業</span>
+          <h3 data-i18n="c1Title">Dashboard 專案推動</h3>
+          <p class="case-challenge" data-i18n="c1Challenge">企業內部用 Excel 報表，各部門數據不一致，決策依然依賴經驗。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c1r1">全球近 800 人使用相同數據做報告</div>
+            <div class="case-result-item" data-i18n="c1r2">管理層定期以 Dashboard 進行決策</div>
+            <div class="case-result-item" data-i18n="c1r3">大幅提升跨區域溝通效率</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card case-card-2">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c2Badge">業務預測</span>
+          <h3 data-i18n="c2Title">業務預測模型建立</h3>
+          <p class="case-challenge" data-i18n="c2Challenge">銷售預測不準，影響庫存與營收規劃，資源配置失衡。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c2r1">預測準確率顯著提升</div>
+            <div class="case-result-item" data-i18n="c2r2">提前掌握市場需求變化</div>
+            <div class="case-result-item" data-i18n="c2r3">降低庫存與缺貨風險</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card case-card-3">
+        <div class="case-overlay"></div>
+        <div class="case-content">
+          <span class="case-badge" data-i18n="c3Badge">文化導入</span>
+          <h3 data-i18n="c3Title">數據決策文化導入</h3>
+          <p class="case-challenge" data-i18n="c3Challenge">企業擁有數據，但缺乏決策機制，憑感覺做決策的情況普遍。</p>
+          <div class="case-results">
+            <div class="case-result-item" data-i18n="c3r1">決策速度顯著提升</div>
+            <div class="case-result-item" data-i18n="c3r2">組織對數據的信任度提高</div>
+            <div class="case-result-item" data-i18n="c3r3">減少憑感覺決策的情況</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE WHY US -->
+  <section class="whyus" style="padding:48px 24px;background:var(--ice);">
+    <div class="section-label" data-i18n="secLblWhy">我們的優勢</div>
+    <h2 class="section-title" data-i18n="secTitleWhy" style="font-size:22px;">為什麼選擇植心科技</h2>
+    <div class="whyus-grid" style="grid-template-columns:1fr;margin-top:28px;">
+      <div class="why-card"><div class="why-icon">🏆</div><h4 data-i18n="w1Title">實戰經驗</h4><p data-i18n="w1Desc">成功推動跨區域數據專案，具備真實落地經驗。</p></div>
+      <div class="why-card"><div class="why-icon">💡</div><h4 data-i18n="w2Title">不只技術</h4><p data-i18n="w2Desc">結合商業與管理思維，讓技術真正服務決策。</p></div>
+      <div class="why-card"><div class="why-icon">🎯</div><h4 data-i18n="w3Title">重視落地</h4><p data-i18n="w3Desc">確保數據「真的被使用」，而非只是做好卻束之高閣。</p></div>
+      <div class="why-card"><div class="why-icon">🔧</div><h4 data-i18n="w4Title">客製化方案</h4><p data-i18n="w4Desc">依企業規模、產業與需求設計專屬解決方案。</p></div>
+    </div>
+  </section>
+
+  <!-- MOBILE CONTACT -->
+  <section class="contact" style="padding:48px 24px;">
+    <div class="contact-info" style="grid-column:unset;">
+      <div class="section-label" data-i18n="secLblContact">聯絡我們</div>
+      <h2 class="section-title" data-i18n="mSecTitleContact" style="color:#fff;font-size:22px;">讓我們開始一段合作</h2>
+      <p class="section-sub" style="color:rgba(180,200,230,.55);margin-bottom:28px;" data-i18n="secSubContact">無論您正面臨何種挑戰，植心科技的專業團隊都樂於提供客製化解決方案。</p>
+    </div>
+
+    <div class="contact-form" style="background:rgba(255,255,255,.03);border:1px solid rgba(180,200,230,.08);border-radius:12px;padding:28px 18px;">
+      <h3 class="form-title" data-i18n="formTitle">送出諮詢需求</h3>
+      <div data-fs-success id="m-form-success"></div>
+      <form id="mContactForm">
+        <div class="form-group">
+          <label data-i18n="fName">姓名</label>
+          <input type="text" name="fullName" data-fs-field required placeholder="王大明">
+          <span data-fs-error="fullName"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fCo">公司名稱</label>
+          <input type="text" name="company" data-fs-field placeholder="XX 股份有限公司">
+          <span data-fs-error="company"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fEmail">電子信箱</label>
+          <input type="email" name="email" data-fs-field required placeholder="email@example.com">
+          <span data-fs-error="email"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fTel">聯絡電話</label>
+          <input type="tel" name="phone" data-fs-field placeholder="09XX-XXXXXX">
+          <span data-fs-error="phone"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fService">感興趣的服務</label>
+          <select name="service" data-fs-field required>
+            <option value="">-- 請選擇服務項目 --</option>
+            <option value="Power BI 教育訓練">Power BI 教育訓練</option>
+            <option value="Claude AI 教育訓練">Claude AI 教育訓練</option>
+            <option value="Dashboard 與 KPI 設計">Dashboard 與 KPI 設計</option>
+            <option value="商業分析與預測模型">商業分析與預測模型</option>
+            <option value="Dashboard 導入推動">Dashboard 導入推動</option>
+            <option value="數據決策顧問">數據決策顧問</option>
+            <option value="數據轉型規劃">數據轉型規劃</option>
+          </select>
+          <span data-fs-error="service"></span>
+        </div>
+        <div class="form-group">
+          <label data-i18n="fMsg">需求說明</label>
+          <textarea name="message" data-fs-field placeholder="請簡述您的企業現況與目標…" style="min-height:90px;"></textarea>
+          <span data-fs-error="message"></span>
+        </div>
+        <button type="submit" class="btn-submit" data-fs-submit-btn data-i18n="fSubmit">送出需求 →</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="padding:24px;">
+    <div>
+      <div class="footer-logo">IN<span>H</span>EART 植心科技</div>
+      <div class="footer-tagline">Data-Driven Decision Making Partner</div>
+    </div>
+    <p data-i18n="mFooterCopy" style="font-size:11px;">© 2026 INHEART 植心科技</p>
+  </footer>
+
+</div>
+
+<!-- Formspree AJAX CDN -->
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contactForm', formId: 'xreonrlz' });
+  formspree('initForm', { formElement: '#mContactForm', formId: 'xreonrlz' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+<script>
+const i18n = {
+  zh:{
+    navServices:'服務項目',navCases:'成功案例',navWhy:'我們的優勢',navDemo:'Dashboard Demo',navCta:'聯絡我們',
+    heroTag:'INHEART 植心科技股份有限公司',
+    heroH1:'從<em>心</em>出發<br>讓數據成為決策的力量',
+    heroP:'植心科技提供企業級 Power BI Dashboard 建置、數據決策顧問，以及 AI 工具教育訓練，協助企業從數據洞察到組織升級，打造永續競爭優勢。',
+    mHeroP:'提供 Power BI 教育訓練、Claude AI 培訓與數據顧問服務，協助企業打造數據驅動決策文化。',
+    heroBtnPri:'探索服務 →',heroBtnDemo:'查看 Dashboard Demo',heroBtnSec:'聯絡我們',
+    stat1:'每季活躍用戶',stat3:'深耕經驗',statYr:'年',
+    secLblServices:'服務項目',secTitleServices:'全方位數位賦能服務',
+    secSubServices:'從教育訓練到顧問導入，植心科技提供端到端的數據決策轉型服務。',
+    mSecSub:'從教育訓練到顧問導入，端到端數據決策轉型。',
+    trainLabel:'教育訓練',consultingLabel:'顧問服務',
+    beginner:'Beginner 入門班',advanced:'Advanced 進階班',
+    t1Title:'企業 Power BI Dashboard 教育訓練',
+    t1Desc:'從零開始到進階應用，培養企業內部的 Power BI 實戰能力。課程結合真實業務場景，讓學員能立即將所學應用於日常工作。',
+    mt1Desc:'培養企業內部 Power BI 實戰能力，結合真實業務場景即學即用。',
+    t2Title:'Claude Coworker AI 教育訓練',
+    t2Desc:'將 Claude AI 打造為您的職場夥伴。學習如何運用 AI 工具提升工作效率、輔助決策分析，讓每位員工都能善用 AI 的力量。',
+    mt2Desc:'將 Claude AI 打造為職場夥伴，學習 AI 工具提升效率與決策分析。',
+    s1Title:'Dashboard 與 KPI 設計',s1Sub:'讓管理層一眼看懂營運狀況',
+    s1l1:'Power BI Dashboard 建置與優化',s1l2:'KPI 架構設計與重整',s1l3:'跨部門數據整合',s1l4:'管理層專用決策儀表板',
+    s1Target:'👉 適合：業務、營運、管理團隊',
+    s2Title:'商業分析與預測模型',s2Sub:'從「事後分析」進化為「提前預測」',
+    s2l1:'銷售預測（Sales Forecast）',s2l2:'毛利分析（Margin Analysis）',s2l3:'情境模擬（Scenario Planning）',
+    s2Target:'👉 幫助企業提前掌握市場變化',
+    s3Title:'Dashboard 導入推動',s3Sub:'讓數據真正被使用，而不是被忽略',
+    s3l1:'使用者培訓與分群',s3l2:'Super User 制度建立',s3l3:'使用率追蹤與優化',s3l4:'內部推廣策略設計',
+    s3Target:'👉 解決「報表做好但沒人用」的問題',
+    s4Title:'數據決策顧問（DDDM）',s4Sub:'打造企業的數據決策能力',
+    s4l1:'數據決策流程設計',s4l2:'KPI 與決策連動機制',s4l3:'管理層數據思維培養',s4l4:'Data Governance 建立',
+    s5Title:'數據轉型規劃',s5Sub:'從工具導入到組織升級',
+    s5l1:'數據策略 Roadmap（1–3年）',s5l2:'系統整合建議（ERP / CRM / BI）',s5l3:'Data Team 架構設計',s5l4:'數據文化建立',
+    secLblCases:'成功案例',secTitleCases:'以成果說話',secSubCases:'攜手各產業領導企業，共同創造可量化的數位轉型價值。',
+    c1Badge:'跨國企業',c1Title:'Dashboard 專案推動',
+    c1Challenge:'企業內部用 Excel 報表，各部門數據不一致，決策依然依賴經驗。',
+    c1r1:'全球近 800 人使用相同數據做報告',c1r2:'管理層定期以 Dashboard 進行決策',c1r3:'大幅提升跨區域溝通效率',
+    c2Badge:'業務預測',c2Title:'業務預測模型建立',
+    c2Challenge:'銷售預測不準，影響庫存與營收規劃，資源配置失衡。',
+    c2r1:'預測準確率顯著提升',c2r2:'提前掌握市場需求變化',c2r3:'降低庫存與缺貨風險',
+    c3Badge:'文化導入',c3Title:'數據決策文化導入',
+    c3Challenge:'企業擁有數據，但缺乏決策機制，憑感覺做決策的情況普遍。',
+    c3r1:'決策速度顯著提升',c3r2:'組織對數據的信任度提高',c3r3:'減少憑感覺決策的情況',
+    secLblWhy:'我們的優勢',secTitleWhy:'為什麼選擇植心科技',secSubWhy:'實戰出發，落地為本，每一個服務都以「真正被使用」為目標。',
+    w1Title:'實戰經驗',w1Desc:'成功推動跨區域數據專案，具備真實落地經驗。',
+    w2Title:'不只技術',w2Desc:'結合商業與管理思維，讓技術真正服務決策。',
+    w3Title:'重視落地',w3Desc:'確保數據「真的被使用」，而非只是做好卻束之高閣。',
+    w4Title:'客製化方案',w4Desc:'依企業規模、產業與需求設計專屬解決方案。',
+    secLblContact:'聯絡我們',secTitleContact:'讓我們開始<br>一段合作',mSecTitleContact:'讓我們開始一段合作',
+    secSubContact:'無論您正面臨何種數位轉型挑戰，植心科技的專業團隊都樂於提供客製化解決方案。',
+    formTitle:'送出諮詢需求',
+    fName:'姓名',fNamePh:'王大明',fCo:'公司名稱',fCoPh:'XX 股份有限公司',
+    fEmail:'電子信箱',fTel:'聯絡電話',fService:'感興趣的服務',fServicePh:'請選擇服務項目',
+    fMsg:'需求說明',fMsgPh:'請簡述您的企業現況與目標…',
+    fSubmit:'送出需求 →',
+    footerCopy:'© 2026 INHEART 植心科技股份有限公司．版權所有',
+    mFooterCopy:'© 2026 INHEART 植心科技股份有限公司',
+  },
+  en:{
+    navServices:'Services',navCases:'Cases',navWhy:'Why Us',navDemo:'Dashboard Demo',navCta:'Contact Us',
+    heroTag:'INHEART Technology Co., Ltd.',
+    heroH1:'From the <em>Heart</em>,<br>Turning Data Into Decision Power',
+    heroP:'INHEART delivers enterprise Power BI dashboard consulting, data-driven decision advisory, and AI workplace training — helping organizations build sustainable competitive advantage through data.',
+    mHeroP:'Power BI training, Claude AI coaching, and data consulting — helping teams build a truly data-driven culture.',
+    heroBtnPri:'Explore Services →',heroBtnDemo:'View Dashboard Demo',heroBtnSec:'Contact Us',
+    stat1:'Active Users / Quarter',stat3:'Years of Expertise',statYr:' yrs',
+    secLblServices:'Services',secTitleServices:'Full-Spectrum Digital Enablement',
+    secSubServices:'From training to consulting — end-to-end data decision transformation services.',
+    mSecSub:'From training to advisory — end-to-end data transformation.',
+    trainLabel:'Training',consultingLabel:'Consulting',
+    beginner:'Beginner',advanced:'Advanced',
+    t1Title:'Enterprise Power BI Dashboard Training',
+    t1Desc:'From fundamentals to advanced application — build real Power BI capability inside your organization. Courses are grounded in real business scenarios so learners apply skills immediately.',
+    mt1Desc:'Build internal Power BI capability with real business scenarios — learn and apply immediately.',
+    t2Title:'Claude Coworker AI Training',
+    t2Desc:'Turn Claude AI into your team\'s daily work partner. Learn to harness AI tools for productivity, decision support, and analysis — empowering every employee to work smarter.',
+    mt2Desc:'Turn Claude AI into a workplace partner — boosting productivity and decision-making for every employee.',
+    s1Title:'Dashboard & KPI Design',s1Sub:'Give leadership instant operational clarity',
+    s1l1:'Power BI dashboard build & optimization',s1l2:'KPI framework design & restructuring',s1l3:'Cross-department data integration',s1l4:'Executive decision dashboards',
+    s1Target:'👉 Ideal for: Sales, Operations, Leadership',
+    s2Title:'Business Analytics & Forecasting',s2Sub:'From reactive analysis to proactive prediction',
+    s2l1:'Sales Forecasting',s2l2:'Margin Analysis',s2l3:'Scenario Planning',
+    s2Target:'👉 Helps enterprises anticipate market changes',
+    s3Title:'Dashboard Adoption & Rollout',s3Sub:'Make data actually used, not ignored',
+    s3l1:'User training & segmentation',s3l2:'Super User program design',s3l3:'Usage tracking & optimization',s3l4:'Internal promotion strategy',
+    s3Target:'👉 Solving the "dashboard built, nobody uses it" problem',
+    s4Title:'DDDM Consulting',s4Sub:"Build your organization's data decision capability",
+    s4l1:'Data decision process design',s4l2:'KPI-to-decision linkage',s4l3:'Leadership data mindset training',s4l4:'Data Governance establishment',
+    s5Title:'Data Transformation Roadmap',s5Sub:'From tool adoption to organizational upgrade',
+    s5l1:'Data strategy roadmap (1–3 years)',s5l2:'System integration advisory (ERP / CRM / BI)',s5l3:'Data team structure design',s5l4:'Data culture building',
+    secLblCases:'Case Studies',secTitleCases:'Results That Speak',secSubCases:'Partnering with industry leaders to deliver measurable digital transformation value.',
+    c1Badge:'Multinational',c1Title:'Dashboard Rollout Project',
+    c1Challenge:'Each department used inconsistent Excel data; decisions still relied on experience over evidence.',
+    c1r1:'~800 users globally reporting from one data source',c1r2:'Leadership uses dashboards regularly for decisions',c1r3:'Significantly improved cross-regional communication',
+    c2Badge:'Sales Forecasting',c2Title:'Sales Forecast Model',
+    c2Challenge:'Inaccurate forecasts disrupted inventory and revenue planning, causing resource imbalances.',
+    c2r1:'Forecast accuracy significantly improved',c2r2:'Earlier visibility into market demand shifts',c2r3:'Reduced inventory surplus and stockout risk',
+    c3Badge:'Culture Adoption',c3Title:'Data Decision Culture Program',
+    c3Challenge:'Data was available but no decision mechanism existed; gut-feel decisions were the norm.',
+    c3r1:'Decision speed significantly increased',c3r2:'Organizational trust in data improved',c3r3:'Reduced reliance on intuition-based decisions',
+    secLblWhy:'Why Us',secTitleWhy:'Why Choose INHEART',secSubWhy:'Built on real-world experience — every service aims to make data genuinely used.',
+    w1Title:'Real-World Experience',w1Desc:'Proven track record driving cross-regional data projects with measurable impact.',
+    w2Title:'Beyond Technology',w2Desc:'Combining business acumen with management insight to make data serve decisions.',
+    w3Title:'Committed to Adoption',w3Desc:"We ensure data is actually used — not just built and left on the shelf.",
+    w4Title:'Tailored Solutions',w4Desc:'Custom-designed for your industry, scale, and organizational needs.',
+    secLblContact:'Contact Us',secTitleContact:'Let\'s Start<br>Working Together',mSecTitleContact:"Let's Start Working Together",
+    secSubContact:"Whatever digital challenge you face, INHEART's expert team is ready to deliver a tailored solution.",
+    formTitle:'Send Your Inquiry',
+    fName:'Full Name',fNamePh:'John Smith',fCo:'Company',fCoPh:'Acme Corporation',
+    fEmail:'Email Address',fTel:'Phone Number',fService:'Service of Interest',fServicePh:'Select a service',
+    fMsg:'Project Details',fMsgPh:'Tell us about your situation and goals…',
+    fSubmit:'Submit Inquiry →',
+    footerCopy:'© 2026 INHEART Technology Co., Ltd. All rights reserved.',
+    mFooterCopy:'© 2026 INHEART Technology Co., Ltd.',
+  }
+};
+
+let currentLang='zh';
+
+function applyLang(lang){
+  const d=i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(d[k]!==undefined)el.textContent=d[k];});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.getAttribute('data-i18n-html');if(d[k]!==undefined)el.innerHTML=d[k];});
+  document.title=lang==='en'?'INHEART Technology Co., Ltd.':'INHEART 植心科技股份有限公司';
+  document.body.classList.toggle('en',lang==='en');
+}
+
+function switchLang(lang){
+  currentLang=lang;
+  applyLang(lang);
+  document.querySelectorAll('[id^="btn-zh"], [id^="btn-en"]').forEach(el=>{
+    el.classList.toggle('active',
+      (el.id.includes('zh') && lang==='zh') || (el.id.includes('en') && lang==='en')
+    );
+  });
+}
+
+// Initialize language on load
+window.addEventListener('load',()=>{applyLang(currentLang);});
+</script>
+</body>
+</html>
