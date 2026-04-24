@@ -211,6 +211,7 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
         <a href="#services" data-i18n="navServices">服務項目</a>
         <a href="#cases" data-i18n="navCases">成功案例</a>
         <a href="#whyus" data-i18n="navWhy">我們的優勢</a>
+        <a href="Sample%20Dashboard/Sample%20Dashboard%20Demo.html" target="_blank" rel="noopener" data-i18n="navDemo">Dashboard Demo</a>
         <a href="#contact" class="nav-cta" data-i18n="navCta">聯絡我們</a>
       </div>
       <div class="lang-switcher-nav">
@@ -236,6 +237,7 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
       <p data-i18n="heroP">植心科技提供企業級 Power BI Dashboard 建置、數據決策顧問，以及 AI 工具教育訓練，協助企業從數據洞察到組織升級，打造永續競爭優勢。</p>
       <div class="hero-btns">
         <a href="#services" class="btn-primary" data-i18n="heroBtnPri">探索服務 →</a>
+        <a href="Sample%20Dashboard/Sample%20Dashboard%20Demo.html" target="_blank" rel="noopener" class="btn-secondary" data-i18n="heroBtnDemo">查看 Dashboard Demo</a>
         <a href="#contact" class="btn-secondary" data-i18n="heroBtnSec">聯絡我們</a>
       </div>
       <div class="hero-stats">
@@ -331,20 +333,28 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
           <li data-i18n="s4l4">Data Governance 建立</li>
         </ul>
       </div>
-      <div class="service-card wide">
+      <div class="service-card">
         <div class="service-icon">🚀</div>
         <h3 data-i18n="s5Title">數據轉型規劃</h3>
         <p class="s-sub" data-i18n="s5Sub">從工具導入到組織升級</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;">
-          <ul class="service-list">
-            <li data-i18n="s5l1">數據策略 Roadmap（1–3年）</li>
-            <li data-i18n="s5l2">系統整合建議（ERP / CRM / BI）</li>
-          </ul>
-          <ul class="service-list">
-            <li data-i18n="s5l3">Data Team 架構設計</li>
-            <li data-i18n="s5l4">數據文化建立</li>
-          </ul>
-        </div>
+        <ul class="service-list">
+          <li data-i18n="s5l1">數據策略 Roadmap（1–3年）</li>
+          <li data-i18n="s5l2">系統整合建議（ERP / CRM / BI）</li>
+          <li data-i18n="s5l3">Data Team 架構設計</li>
+          <li data-i18n="s5l4">數據文化建立</li>
+        </ul>
+      </div>
+      <div class="service-card" style="background:linear-gradient(135deg,#f4f8f5 0%,#ffffff 70%);border:1.5px solid rgba(58,122,69,0.28);position:relative;">
+        <div style="position:absolute;top:18px;right:18px;background:#3a7a45;color:#fff;font-size:10px;font-weight:700;padding:4px 11px;border-radius:20px;letter-spacing:.06em;" data-i18n="s6Badge">⚡ 標準版導入</div>
+        <div class="service-icon">⚡</div>
+        <h3 data-i18n="s6Title">4週打造決策 Dashboard 系統</h3>
+        <p class="s-sub" data-i18n="s6Sub">一個月內從 0 到上線，讓管理層用數據決策</p>
+        <ul class="service-list">
+          <li data-i18n="s6l1">需求訪談 × KPI 架構</li>
+          <li data-i18n="s6l2">建立可信資料層</li>
+          <li data-i18n="s6l3">Dashboard 介面設計</li>
+          <li data-i18n="s6l4">關鍵使用者培訓與交接</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -461,6 +471,7 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
               <option value="Dashboard 導入推動">Dashboard 導入推動</option>
               <option value="數據決策顧問">數據決策顧問</option>
               <option value="數據轉型規劃">數據轉型規劃</option>
+              <option value="4週打造決策Dashboard">4週打造決策 Dashboard 系統（標準版導入）</option>
             </select>
             <span data-fs-error="service"></span>
           </div>
@@ -517,6 +528,7 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
       <p data-i18n="mHeroP">提供 Power BI 教育訓練、Claude AI 培訓與數據顧問服務，協助企業打造數據驅動決策文化。</p>
       <div class="hero-btns" style="flex-direction:column;gap:10px;">
         <a href="#services" class="btn-primary" style="text-align:center;" data-i18n="heroBtnPri">探索服務 →</a>
+        <a href="Sample%20Dashboard/Sample%20Dashboard%20Demo.html" target="_blank" rel="noopener" class="btn-secondary" style="text-align:center;" data-i18n="heroBtnDemo">查看 Dashboard Demo</a>
         <a href="#contact" class="btn-secondary" style="text-align:center;" data-i18n="heroBtnSec">聯絡我們</a>
       </div>
       <div class="hero-stats" style="flex-direction:column;gap:24px;">
@@ -621,6 +633,18 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
           <li data-i18n="s5l2">系統整合建議（ERP / CRM / BI）</li>
           <li data-i18n="s5l3">Data Team 架構設計</li>
           <li data-i18n="s5l4">數據文化建立</li>
+        </ul>
+      </div>
+      <div class="service-card" style="background:linear-gradient(135deg,#f4f8f5 0%,#ffffff 70%);border:1.5px solid rgba(58,122,69,0.28);position:relative;">
+        <div style="position:absolute;top:14px;right:14px;background:#3a7a45;color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:.05em;" data-i18n="s6Badge">⚡ 標準版導入</div>
+        <div class="service-icon">⚡</div>
+        <h3 data-i18n="s6Title" style="font-size:15px;">4週打造決策 Dashboard 系統</h3>
+        <p class="s-sub" data-i18n="s6Sub">一個月內從 0 到上線，讓管理層用數據決策</p>
+        <ul class="service-list" style="font-size:12px;">
+          <li data-i18n="s6l1">需求訪談 × KPI 架構</li>
+          <li data-i18n="s6l2">建立可信資料層</li>
+          <li data-i18n="s6l3">Dashboard 介面設計</li>
+          <li data-i18n="s6l4">關鍵使用者培訓與交接</li>
         </ul>
       </div>
     </div>
@@ -765,12 +789,12 @@ body.en .hero h1{font-size:clamp(28px,4vw,50px);}
 <script>
 const i18n = {
   zh:{
-    navServices:'服務項目',navCases:'成功案例',navWhy:'我們的優勢',navCta:'聯絡我們',
+    navServices:'服務項目',navCases:'成功案例',navWhy:'我們的優勢',navDemo:'Dashboard Demo',navCta:'聯絡我們',
     heroTag:'INHEART 植心科技股份有限公司',
     heroH1:'從<em>心</em>出發<br>讓數據成為決策的力量',
     heroP:'植心科技提供企業級 Power BI Dashboard 建置、數據決策顧問，以及 AI 工具教育訓練，協助企業從數據洞察到組織升級，打造永續競爭優勢。',
     mHeroP:'提供 Power BI 教育訓練、Claude AI 培訓與數據顧問服務，協助企業打造數據驅動決策文化。',
-    heroBtnPri:'探索服務 →',heroBtnSec:'聯絡我們',
+    heroBtnPri:'探索服務 →',heroBtnDemo:'查看 Dashboard Demo',heroBtnSec:'聯絡我們',
     stat1:'每季活躍用戶',stat3:'深耕經驗',statYr:'年',
     secLblServices:'服務項目',secTitleServices:'全方位數位賦能服務',
     secSubServices:'從教育訓練到顧問導入，植心科技提供端到端的數據決策轉型服務。',
@@ -795,6 +819,9 @@ const i18n = {
     s4Title:'數據決策顧問（DDDM）',s4Sub:'打造企業的數據決策能力',
     s4l1:'數據決策流程設計',s4l2:'KPI 與決策連動機制',s4l3:'管理層數據思維培養',s4l4:'Data Governance 建立',
     s5Title:'數據轉型規劃',s5Sub:'從工具導入到組織升級',
+    s6Badge:'⚡ 標準版導入',
+    s6Title:'4週打造決策 Dashboard 系統',s6Sub:'一個月內從 0 到上線，讓管理層用數據決策',
+    s6l1:'需求訪談 × KPI 架構',s6l2:'建立可信資料層',s6l3:'Dashboard 介面設計',s6l4:'關鍵使用者培訓與交接',
     s5l1:'數據策略 Roadmap（1–3年）',s5l2:'系統整合建議（ERP / CRM / BI）',s5l3:'Data Team 架構設計',s5l4:'數據文化建立',
     secLblCases:'成功案例',secTitleCases:'以成果說話',secSubCases:'攜手各產業領導企業，共同創造可量化的數位轉型價值。',
     c1Badge:'跨國企業',c1Title:'Dashboard 專案推動',
@@ -822,12 +849,12 @@ const i18n = {
     mFooterCopy:'© 2026 INHEART 植心科技股份有限公司',
   },
   en:{
-    navServices:'Services',navCases:'Cases',navWhy:'Why Us',navCta:'Contact Us',
+    navServices:'Services',navCases:'Cases',navWhy:'Why Us',navDemo:'Dashboard Demo',navCta:'Contact Us',
     heroTag:'INHEART Technology Co., Ltd.',
     heroH1:'From the <em>Heart</em>,<br>Turning Data Into Decision Power',
     heroP:'INHEART delivers enterprise Power BI dashboard consulting, data-driven decision advisory, and AI workplace training — helping organizations build sustainable competitive advantage through data.',
     mHeroP:'Power BI training, Claude AI coaching, and data consulting — helping teams build a truly data-driven culture.',
-    heroBtnPri:'Explore Services →',heroBtnSec:'Contact Us',
+    heroBtnPri:'Explore Services →',heroBtnDemo:'View Dashboard Demo',heroBtnSec:'Contact Us',
     stat1:'Active Users / Quarter',stat3:'Years of Expertise',statYr:' yrs',
     secLblServices:'Services',secTitleServices:'Full-Spectrum Digital Enablement',
     secSubServices:'From training to consulting — end-to-end data decision transformation services.',
@@ -852,6 +879,9 @@ const i18n = {
     s4Title:'DDDM Consulting',s4Sub:"Build your organization's data decision capability",
     s4l1:'Data decision process design',s4l2:'KPI-to-decision linkage',s4l3:'Leadership data mindset training',s4l4:'Data Governance establishment',
     s5Title:'Data Transformation Roadmap',s5Sub:'From tool adoption to organizational upgrade',
+    s6Badge:'⚡ STANDARD EDITION',
+    s6Title:'Decision Dashboard in 4 Weeks',s6Sub:'From zero to live in a month — leadership decides with data',
+    s6l1:'Discovery × KPI architecture',s6l2:'Trusted data layer build',s6l3:'Dashboard interface design',s6l4:'Key-user training & handover',
     s5l1:'Data strategy roadmap (1–3 years)',s5l2:'System integration advisory (ERP / CRM / BI)',s5l3:'Data team structure design',s5l4:'Data culture building',
     secLblCases:'Case Studies',secTitleCases:'Results That Speak',secSubCases:'Partnering with industry leaders to deliver measurable digital transformation value.',
     c1Badge:'Multinational',c1Title:'Dashboard Rollout Project',
