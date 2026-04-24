@@ -73,6 +73,15 @@ body { font-family: 'DM Sans', sans-serif; background: var(--slate-50); color: v
 }
 .back-btn:hover { background: rgba(255,255,255,0.18); }
 .back-btn.visible { display: flex; }
+.home-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 12px; font-weight: 500;
+  padding: 6px 14px; border-radius: 8px;
+  transition: all 0.15s;
+}
+.home-link:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); }
 
 /* ─── HUB VIEW ────────────────────────────────────────────── */
 #hub-view { padding: 28px 28px 48px; }
@@ -287,6 +296,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--slate-50); color: v
     </div>
   </div>
   <div class="topbar-right">
+    <a class="home-link" href="../index.html">⌂ 回到首頁</a>
     <button class="back-btn" id="backBtn" onclick="showHub()">← 返回總覽</button>
     <div class="period-badge">Q1 2026 · Jan–Mar</div>
     <div class="live-dot"></div>
