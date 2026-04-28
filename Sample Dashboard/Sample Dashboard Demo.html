@@ -277,9 +277,83 @@ body { font-family: 'DM Sans', sans-serif; background: var(--slate-50); color: v
 .iframe-loading.hidden { display: none; }
 
 /* ─── RESPONSIVE ───────────────────────────────────────────── */
+
+/* ── Mobile topbar: two-row stacked layout ── */
+@media (max-width: 640px) {
+
+  /* Topbar becomes a flex column */
+  .topbar {
+    height: auto !important;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* Row 1: logo + brand name */
+  .topbar-left {
+    padding: 10px 14px 8px;
+    gap: 10px;
+    align-items: center;
+  }
+  .brand-name { font-size: 13px; }
+  .brand-sub  { display: none; }   /* hide long subtitle on mobile */
+
+  /* Row 2: action buttons */
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px 10px;
+    gap: 6px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .topbar-right::-webkit-scrollbar { display: none; }
+
+  /* Tighten buttons */
+  .home-link,
+  .back-btn {
+    font-size: 11px;
+    padding: 5px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .back-btn.visible { display: flex; }
+
+  /* Shrink badge & hide live label text */
+  .period-badge { font-size: 10px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; }
+  .live-label   { display: none; }
+  .live-dot     { flex-shrink: 0; }
+
+  /* Detail view height: subtract two topbar rows (~88px total) */
+  #detail-view { height: calc(100vh - 88px); }
+
+  /* Detail header: stack title and nav/actions vertically */
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+  }
+  .detail-header > div:last-child {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .detail-name    { font-size: 13px; }
+  .detail-subtitle { display: none; }
+  .btn-ghost { font-size: 11px; padding: 5px 10px; }
+  .nav-counter { font-size: 10px; }
+}
+
+/* ── Tablet / small desktop ── */
 @media (max-width: 700px) {
   .card-grid { grid-template-columns: 1fr; }
-  #hub-view { padding: 16px; }
+  #hub-view  { padding: 16px; }
   .hub-stats { flex-wrap: wrap; gap: 14px; }
 }
 </style>
@@ -332,11 +406,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--slate-50); color: v
     <div style="display:flex;align-items:center;gap:16px">
       <div class="detail-nav">
         <button class="nav-btn" onclick="navDash(-1)" title="Previous">‹</button>
-        <span class="nav-counter" id="navCounter">1 / 18</span>
+        <span class="nav-counter" id="navCounter">1 / 19</span>
         <button class="nav-btn" onclick="navDash(1)" title="Next">›</button>
       </div>
       <div class="detail-actions">
-        <button class="btn-ghost" onclick="openInTab()">↗ ↗ 另開分頁</button>
+        <button class="btn-ghost" onclick="openInTab()">↗ 另開分頁</button>
       </div>
     </div>
   </div>
@@ -639,6 +713,22 @@ const dashboards = [
       { val: '52.3%', lbl: 'Gross Margin', delta: '▲ +2.4pp', dir: 'up' },
     ]
   },
+  {
+    id: 19, file: '19_ecommerce_decision_dashboard.html',
+    title: 'E-Commerce Decision Dashboard',
+    subtitle: '決策型儀表板 · Revenue Driver Analysis',
+    icon: '🏪',
+    desc: 'Revenue driver decomposition (Traffic × Conversion × AOV), mobile funnel diagnostics, channel breakdown, and real-time decision alerts for e-commerce operations.',
+    accent: 'linear-gradient(90deg,#E5102A,#1E6FD9)',
+    bgColor: 'rgba(229,16,42,0.05)',
+    iconColor: '#E5102A',
+    tags: ['Revenue Driver','Conversion','Traffic','AOV','Mobile'],
+    kpis: [
+      { val: 'NT$9.62B', lbl: 'Net Revenue', delta: '▲ +14.8%', dir: 'up' },
+      { val: '3.24%', lbl: 'Conversion', delta: '▼ −0.3pp', dir: 'dn' },
+      { val: '18.4M', lbl: 'Traffic', delta: '▲ +8.2%', dir: 'up' },
+    ]
+  },
 ];
 
 let currentIndex = 0;
@@ -733,3 +823,4 @@ buildCards();
 </script>
 </body>
 </html>
+
