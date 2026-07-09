@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>使用說明 | Error Note（錯題本）</title>
+<style>
+  :root {
+    --text: #1c1c1e;
+    --muted: #6b6b70;
+    --accent: #007aff;
+    --border: #e5e5ea;
+    --bg-soft: #f7f7f9;
+    --red: #ff3b30;
+    --green: #34c759;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Helvetica Neue", "Segoe UI", sans-serif;
+    color: var(--text);
+    line-height: 1.75;
+    background: #fff;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+  .updated { color: var(--muted); font-size: 14px; }
+  nav {
+    background: var(--bg-soft);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 40px;
+    font-size: 14px;
+  }
+  nav strong { display: block; margin-bottom: 8px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  nav ol { margin: 0; padding-left: 20px; columns: 2; }
+  nav li { margin-bottom: 4px; break-inside: avoid; }
+  nav a { color: var(--accent); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 44px 0 4px;
+    padding-top: 4px;
+    scroll-margin-top: 20px;
+  }
+  .h2-sub { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 20px 0 6px;
+  }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .callout {
+    background: var(--bg-soft);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .callout.warn { background: #fff5e6; color: #8a5a00; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--muted);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge.tag-scan { background: #007aff15; color: var(--accent); }
+  .badge.tag-errorbook { background: #34c75915; color: var(--green); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; background: var(--bg-soft); }
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>使用說明</h1>
+    <div class="updated">Error Note（錯題本）・最後更新：2026 年 7 月 8 日</div>
+  </header>
+
+  <p>
+    Error Note 是一款給學生使用的錯題記錄 App：拍照上傳考卷、AI 自動辨識題目、勾選錯題、之後可以複習、看 AI 詳解、
+    或列印成 PDF 錯題本。不需要註冊帳號，資料會自動透過你的 iCloud 帳號在你自己的裝置之間同步。
+  </p>
+
+  <nav>
+    <strong>本頁內容</strong>
+    <ol>
+      <li><a href="#quickstart">快速開始</a></li>
+      <li><a href="#scan">掃描考卷（AI 辨識）</a></li>
+      <li><a href="#manual">手動新增考試／錯題</a></li>
+      <li><a href="#errorbook">錯題本：瀏覽、篩選、管理</a></li>
+      <li><a href="#review">複習模式</a></li>
+      <li><a href="#print">列印／分享 PDF</a></li>
+      <li><a href="#onlinetest">線上作答（自動改考卷）</a></li>
+      <li><a href="#sync">跨裝置同步</a></li>
+      <li><a href="#ads">廣告與去廣告訂閱</a></li>
+      <li><a href="#faq">常見問題</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="quickstart">快速開始</h2>
+  <p>App 打開後，畫面下方有兩個分頁：</p>
+  <ul>
+    <li><strong>📸 掃描考卷</strong>：拍照或從相簿選取考卷，讓 AI 幫你辨識題目。</li>
+    <li><strong>📝 錯題本</strong>：瀏覽、複習、列印你已經記錄的錯題。</li>
+  </ul>
+  <p>第一次使用建議的流程：<code>掃描一張考卷</code> → <code>勾選答錯的題目並填上正確答案</code> → <code>存檔</code> → 之後到「錯題本」分頁隨時複習。</p>
+
+  <h2 id="scan">掃描考卷（AI 辨識）<span class="badge tag-scan">📸 掃描考卷</span></h2>
+  <div class="h2-sub">部分裝置可能顯示「即將推出」——見下方說明</div>
+  <ol>
+    <li>在「掃描考卷」分頁，先選擇<strong>🎯 精確模式</strong>（辨識較準，適合數學等有小字符號的科目）或<strong>💰 省錢模式</strong>（速度較快，但偶爾會漏字或看錯）。</li>
+    <li>點<strong>拍照</strong>或<strong>從相簿選取</strong>，選一張考卷照片。</li>
+    <li>AI 辨識完成後，畫面會列出偵測到的每一題。</li>
+    <li>點選你<strong>答錯的題目</strong>（打勾），並輸入正確答案。</li>
+    <li>填上考試名稱、選擇科目與熟練度，按「儲存」即完成。</li>
+  </ol>
+  <div class="callout warn">
+    <strong>⚠️ AI 掃描是裝置授權功能</strong>：目前 AI 辨識與 AI 詳解僅開放給已授權的裝置使用。
+    如果你的裝置還沒開通，這些按鈕會顯示反灰、標示「🔒 即將推出」，點下去也不會有作用；
+    這是刻意設計的誠實提示，不是故障。App 裡的手動輸入功能（新增考試、新增錯題、複習、列印等）不受影響，一律可以正常使用。
+  </div>
+
+  <h2 id="manual">手動新增考試／錯題</h2>
+  <p>不想用 AI 辨識，或裝置還沒開通 AI 功能時，也可以完全手動記錄：</p>
+  <ol>
+    <li>在「錯題本」分頁右上角點 <strong>＋</strong>，輸入考試名稱、選擇科目與熟練度，建立一筆新考試。</li>
+    <li>進入該考試詳情頁，點下方<strong>「＋ 新增錯題」</strong>。</li>
+    <li>填入題號、題目內容（選填，填了複習模式才會一起顯示）、正確答案，按「儲存並繼續新增」可以連續輸入多題，或按「完成」結束。</li>
+  </ol>
+
+  <h2 id="errorbook">錯題本：瀏覽、篩選、管理<span class="badge tag-errorbook">📝 錯題本</span></h2>
+  <ul>
+    <li><strong>科目／熟練度篩選</strong>：畫面上方的標籤可以按科目（國文、英文、數學…）或熟練度（不熟、普通、熟練）篩選要看的考試。</li>
+    <li><strong>切換熟練度標記</strong>：進入考試詳情頁，點「切換標記」可以在「不熟／普通／熟練」之間循環切換這份考試的熟練度。</li>
+    <li><strong>顯示／隱藏答案</strong>：考試詳情頁預設隱藏答案，點「顯示答案」按鈕才會顯示，方便先自我測驗再核對。</li>
+    <li><strong>刪除</strong>：長按考試卡片或長按單一錯題項目，會跳出刪除確認。</li>
+    <li><strong>AI 詳解</strong>：顯示答案後，每一題下方有「🤖 AI 詳解」按鈕（需裝置已開通 AI 功能），AI 會獨立解一次題，如果算出的答案跟你記錄的不一樣，會用橘色文字提醒你重新核對。</li>
+  </ul>
+
+  <h2 id="review">複習模式</h2>
+  <p>在考試詳情頁點<strong>「複習模式」</strong>，題目會隨機排序，逐題呈現：</p>
+  <ul>
+    <li>先看題目，點「顯示答案」再核對正確答案與備注。</li>
+    <li>可以在複習模式中直接使用 AI 詳解（需裝置已開通）。</li>
+    <li>畫面上方有「🖨️ 列印」按鈕，可以直接把這份複習內容列印或分享成 PDF。</li>
+  </ul>
+
+  <h2 id="print">列印／分享 PDF</h2>
+  <p>
+    複習模式跟「合併列印」（見下方）都支援列印，會跳出三種選項：
+  </p>
+  <table>
+    <tr><th>選項</th><th>說明</th></tr>
+    <tr><td>不含答案</td><td>只印題目，適合重新作答用</td></tr>
+    <tr><td>含答案</td><td>印題目與正確答案／備注</td></tr>
+    <tr><td>含答案＋AI 詳解</td><td>額外印出已經產生過的 AI 詳解內容；如果某一題還沒生成過 AI 詳解，該題會略過這段、但答案照常印出</td></tr>
+  </table>
+  <p>
+    「錯題本」分頁右上角的<strong>「列印合併單」</strong>可以跨考試、跨科目一起篩選、產生一份隨機排序的合併複習/列印清單，
+    適合把多次考試的錯題整理成一份總複習卷。
+  </p>
+
+  <h2 id="onlinetest">線上作答（自動改考卷）</h2>
+  <p>
+    在「列印合併單」畫面選好科目與熟練度、產生清單後，點<strong>「📝 線上作答（自動改考卷）」</strong>，
+    可以直接在手機／平板上作答，App 會自動核對答案並把結果存回錯題本，不用紙筆列印也能複習。
+  </p>
+
+  <h2 id="sync">跨裝置同步</h2>
+  <p>
+    Error Note 不需要註冊帳號，資料會透過 <strong>iCloud</strong> 自動在你登入同一個 Apple ID 的裝置之間同步
+    （例如同時用 iPhone 跟 iPad）。只要裝置有登入 iCloud、且開啟網路連線，新增或修改考試後會自動在背景同步，
+    不需要手動按任何「同步」按鈕。
+  </p>
+  <div class="callout">
+    如果換了新裝置或懷疑資料沒有同步完整，可以先確認裝置已登入 iCloud、且此 App 允許使用 iCloud
+    （設定 App →〔你的名字〕→ iCloud）。
+  </div>
+
+  <h2 id="ads">廣告與去廣告訂閱</h2>
+  <p>
+    App 內會顯示廣告（橫幅、插頁、卡片、開屏），支援本 App 持續維運。如果想要完全移除廣告，
+    可以在「錯題本」分頁右上角點<strong>「🚫 移除廣告」</strong>，訂閱去廣告方案後，
+    App 內所有廣告會立即停止顯示；如果你之前買過、換了裝置或重新安裝 App，可以在同一個畫面點
+    <strong>「恢復購買」</strong>把訂閱狀態找回來，不需要重新付費。
+  </p>
+
+  <h2 id="faq">常見問題</h2>
+
+  <h3>為什麼「拍照」「AI 詳解」按鈕是灰色的、點了沒反應？</h3>
+  <p>
+    代表你的裝置目前還沒開通 AI 功能授權。這是刻意設計、誠實呈現的狀態，不是 bug。
+    AI 掃描與 AI 詳解以外的功能（手動新增、複習、列印、線上作答、跨裝置同步）完全不受影響。
+  </p>
+
+  <h3>AI 辨識的題目內容看起來怪怪的（缺字、符號跑掉）怎麼辦？</h3>
+  <p>
+    AI 辨識並非百分之百準確，尤其是手寫字跡、罕見符號或多重疊字。建議掃描後仔細核對每一題內容，
+    有誤的話可以手動修正題目內容與答案。使用「🎯 精確模式」通常能得到比較準確的辨識結果。
+  </p>
+
+  <h3>刪除的考試／錯題可以救回來嗎？</h3>
+  <p>
+    刪除前都會跳出確認對話框，請務必先確認清楚。目前刪除後沒有「復原」功能，請謹慎操作。
+  </p>
+
+  <h3>可以匯出或備份錯題本嗎？</h3>
+  <p>
+    資料會自動透過 iCloud 同步與備份，不需要手動匯出。如果想保留紙本或 PDF 檔案，
+    可以使用「列印／分享 PDF」功能匯出成 PDF 檔案另外保存。
+  </p>
+
+  <h3>忘記訂閱去廣告的付款方式或想取消怎麼辦？</h3>
+  <p>
+    訂閱是透過 Apple App Store 處理，可以到 iPhone「設定」→〔你的名字〕→「訂閱」管理或取消，
+    App 本身不會經手你的付款資訊。
+  </p>
+
+  <h2>需要協助？</h2>
+  <p>
+    如果遇到問題或有功能建議，歡迎透過 Email 聯絡我們：
+    <a href="mailto:webhost@inheart.tw">webhost@inheart.tw</a>
+  </p>
+
+  <footer>
+    © 2026 Error Note（錯題本）。功能會持續更新，畫面與流程可能與本頁描述略有差異，實際請以 App 內顯示為準。
+  </footer>
+
+</div>
+</body>
+</html>

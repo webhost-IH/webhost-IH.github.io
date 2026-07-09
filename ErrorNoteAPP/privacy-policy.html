@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>隱私權政策 | Error Note（錯題本）</title>
+<style>
+  :root {
+    --text: #1c1c1e;
+    --muted: #6b6b70;
+    --accent: #007aff;
+    --border: #e5e5ea;
+    --bg-soft: #f7f7f9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Helvetica Neue", "Segoe UI", sans-serif;
+    color: var(--text);
+    line-height: 1.75;
+    background: #fff;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px;
+  }
+  .updated {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 40px 0 12px;
+    padding-top: 4px;
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 20px 0 6px;
+    color: var(--text);
+  }
+  p { margin: 0 0 14px; }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .callout {
+    background: var(--bg-soft);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 20px;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; background: var(--bg-soft); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>隱私權政策</h1>
+    <div class="updated">Error Note（錯題本）・最後更新：2026 年 7 月 8 日</div>
+  </header>
+
+  <p>
+    Error Note（以下稱「本 App」）是一款供學生記錄考試錯題、複習、以及使用 AI 輔助辨識與詳解的行動應用程式。
+    本 App <strong>不需要註冊帳號</strong>，也不會要求輸入姓名、Email 或其他可識別個人身份的資料。
+    本頁說明本 App 會處理哪些資料、如何使用，以及背後用到的第三方服務。
+  </p>
+
+  <div class="callout">
+    這份政策涵蓋 App 本身、AI 辨識代理伺服器、廣告服務（Google AdMob）與應用內購買（Apple App Store）。
+    如果你對這份政策有任何疑問，可以透過本頁最下方的聯絡方式與我們聯繫。
+  </div>
+
+  <h2>我們蒐集哪些資料</h2>
+
+  <h3>1. 錯題本內容（題目、答案、備注）</h3>
+  <p>
+    你輸入或掃描的考試名稱、科目、題號、題目內容、正確答案等資料，會儲存在你的裝置本機，
+    並透過 Apple 的 <strong>iCloud（CloudKit）</strong>在你自己登入的 iCloud 帳號底下跨裝置同步。
+    這些資料<strong>不會上傳到本 App 開發者經營的任何伺服器</strong>，完全在 Apple 的 iCloud 私有資料庫（Private Database）
+    範圍內流動，只有你自己的 iCloud 帳號能存取。
+  </p>
+
+  <h3>2. 考卷照片（僅限使用 AI 辨識功能時）</h3>
+  <p>
+    當你使用「AI 掃描考卷」或「AI 詳解」功能時，你選取或拍攝的考卷照片（或題目文字）會透過加密連線
+    傳送到本 App 的代理伺服器，再由代理伺服器轉送給 AI 服務供應商 <strong>OpenAI</strong> 進行文字辨識與解題。
+  </p>
+  <ul>
+    <li>照片只在處理當下暫時經過代理伺服器，<strong>不會被長期儲存或保留</strong>。</li>
+    <li>如果你不使用 AI 掃描／AI 詳解功能，就不會有任何照片離開你的裝置。</li>
+    <li>目前這些 AI 功能僅開放給經授權的裝置使用（見下方「裝置授權」）。</li>
+  </ul>
+
+  <h3>3. 裝置授權識別碼</h3>
+  <p>
+    本 App 會在你的裝置本機產生一組隨機的識別碼，用來判斷這台裝置是否已被授權使用 AI 功能、以及是否已購買去廣告方案。
+    這組識別碼：
+  </p>
+  <ul>
+    <li>是 App 本機隨機產生的字串，<strong>不是</strong>手機的硬體序號（UDID）、廣告識別碼（IDFA）或其他裝置指紋。</li>
+    <li>不會與姓名、Email、電話等任何可識別個人身份的資訊建立關聯。</li>
+    <li>只用來做授權判斷，不用於使用行為分析或追蹤。</li>
+  </ul>
+
+  <h3>4. 訂閱與購買</h3>
+  <p>
+    去廣告訂閱方案透過 Apple App Store 的應用內購買機制處理，付款資訊（信用卡卡號等）由 Apple 直接收取與管理，
+    本 App 與其伺服器<strong>完全不會接觸或儲存</strong>你的付款資訊，僅會在裝置本機確認訂閱是否為有效狀態。
+  </p>
+
+  <h2>我們如何使用這些資料</h2>
+  <ul>
+    <li>提供錯題記錄、複習、列印、跨裝置同步等核心功能。</li>
+    <li>在你主動使用 AI 掃描／AI 詳解時，把考卷照片或題目文字送給 AI 供應商進行辨識與解題。</li>
+    <li>判斷裝置是否已開通 AI 功能、是否已購買去廣告方案。</li>
+    <li>顯示廣告（僅限尚未購買去廣告方案的裝置，見下方「廣告」一節）。</li>
+  </ul>
+  <p>我們不會將任何資料用於本 App 功能以外的目的，也不會出售資料給第三方。</p>
+
+  <h2>第三方服務</h2>
+  <p>本 App 使用以下第三方服務，各自受其自身的隱私權政策規範：</p>
+
+  <table>
+    <tr><th>服務</th><th>用途</th><th>會接觸到的資料</th></tr>
+    <tr>
+      <td>OpenAI</td>
+      <td>AI 辨識考卷題目、產生詳解</td>
+      <td>你主動上傳的考卷照片／題目文字（僅處理當下，不長期保留）</td>
+    </tr>
+    <tr>
+      <td>Apple iCloud（CloudKit）</td>
+      <td>跨裝置同步錯題本資料</td>
+      <td>錯題本內容，僅存在你自己的 iCloud 私有資料庫</td>
+    </tr>
+    <tr>
+      <td>Apple App Store（StoreKit）</td>
+      <td>處理去廣告訂閱的購買與續訂</td>
+      <td>付款資訊由 Apple 直接處理，本 App 不會接觸</td>
+    </tr>
+    <tr>
+      <td>Google AdMob</td>
+      <td>顯示廣告（未購買去廣告方案的裝置）</td>
+      <td>見下方「廣告」一節</td>
+    </tr>
+  </table>
+
+  <h2>廣告</h2>
+  <p>
+    尚未購買去廣告訂閱的裝置，會透過 <strong>Google AdMob</strong> 顯示橫幅、插頁、原生卡片與開屏廣告。
+    我們刻意選擇<strong>非個人化廣告（Non-Personalized Ads）</strong>模式，這代表：
+  </p>
+  <ul>
+    <li>我們不會請求 App Tracking Transparency（ATT）權限，也不會使用廣告識別碼（IDFA）追蹤你在其他 App 或網站上的行為。</li>
+    <li>廣告內容是根據當下情境（例如廣告位置、大致地區）投放，而非根據個人使用歷程做精準投放。</li>
+  </ul>
+  <p>
+    AdMob SDK 本身仍會依 Google 的政策處理必要的技術性資料（例如裝置型號、作業系統版本、大致地理位置、廣告曝光與點擊記錄），
+    詳情請參閱
+    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google 隱私權政策</a>
+    與
+    <a href="https://support.google.com/admob/answer/6128543" target="_blank" rel="noopener">AdMob 資料使用說明</a>。
+    購買去廣告訂閱後，App 內所有廣告會立即停止顯示。
+  </p>
+
+  <h2>兒童與學生使用者</h2>
+  <p>
+    本 App 主要設計給學生使用，使用者當中可能包含未滿 18 歲的未成年人。我們在設計上採取以下作法：
+  </p>
+  <ul>
+    <li>本 App 本身不需要註冊帳號，不主動蒐集姓名、Email、生日等個人資料。</li>
+    <li>如上所述，廣告一律採用非個人化模式，不做行為追蹤。</li>
+    <li>錯題本內容只在使用者自己的 iCloud 帳號範圍內同步，不會上傳到我們的伺服器留存。</li>
+  </ul>
+  <p>
+    如果你是家長或監護人，發現孩子在未經你同意的情況下提供了資料，或想了解、刪除孩子裝置上的相關資料，
+    歡迎透過下方聯絡方式與我們聯繫。
+  </p>
+
+  <h2>資料保留與刪除</h2>
+  <ul>
+    <li>錯題本內容儲存在你的裝置本機與你自己的 iCloud 帳號，只要你保留 App 或 iCloud 上的資料就會存在；你可以隨時在 App 內刪除考試記錄，或透過 iOS 的 iCloud 設定管理／清除 CloudKit 資料。</li>
+    <li>考卷照片僅在 AI 辨識處理當下短暫經過我們的代理伺服器，處理完成後不會保留。</li>
+    <li>裝置授權識別碼僅存在你的裝置本機，解除安裝 App 即會清除。</li>
+  </ul>
+
+  <h2>資料安全</h2>
+  <p>
+    照片與文字上傳至 AI 辨識代理伺服器時，全程透過加密連線（HTTPS/TLS）傳輸。
+    我們會採取合理的技術與管理措施保護資料安全，但無法保證網路傳輸或電子儲存百分之百不會被入侵，
+    如同任何網路服務一樣存在固有風險。
+  </p>
+
+  <h2>政策異動</h2>
+  <p>
+    我們可能會不定期更新這份隱私權政策，異動後會更新頁面上方的「最後更新」日期。
+    建議你不定期回來查看最新版本。
+  </p>
+
+  <h2>聯絡我們</h2>
+  <p>
+    如果你對這份隱私權政策有任何問題、意見，或想申請查閱／刪除資料，歡迎透過以下方式聯絡我們：
+  </p>
+  <p>Email：<a href="mailto:webhost@inheart.tw">webhost@inheart.tw</a></p>
+
+  <footer>
+    © 2026 Error Note（錯題本）。本頁面為隱私權政策草稿，發布前建議自行審閱內容是否符合實際情況與最新法規要求。
+  </footer>
+
+</div>
+</body>
+</html>
